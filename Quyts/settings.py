@@ -130,3 +130,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Additional settings
 
 AUTH_USER_MODEL = 'learners.Learner'
+
+# Email
