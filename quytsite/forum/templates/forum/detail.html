@@ -1,0 +1,16 @@
+<a href="/forum/home"> <button type="button" name="back"><b>back</b></button> </a>
+<h1>{{ posts.title }}</h1>
+<p>{{ posts.context }}</p>
+<h2>Comments:</h2>
+<input type="hidden" id="post_id" value="{{ posts.id }}">
+<label for="comment_input">Chu Quang Cần:</label>
+<input type="text" id="comment_input" name="comment_input" placeholder="Enter your comment...">
+<button onclick="post_comment()">Comment</button>
+<div>
+    {% for comment in posts.comments_set.all %}
+    <blockquote style="margin-left: 20px; border-left: 5px solid #ccc; padding-left: 15px;">
+        <p>{{ comment.context }}</p>
+    </blockquote>
+    {% endfor %}
+</div>
+

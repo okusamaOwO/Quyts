@@ -1,0 +1,9 @@
+{% if posts_list %}
+    <ul>
+        {% for post in posts_list %}
+        <li><a href="{{post.id}}/">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No post are available.</p>
+{% endif%}
