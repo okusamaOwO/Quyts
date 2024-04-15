@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Flashcards App</h1>
+    </header>
+    <main>
+        {% block content %}
+            <h2>Welcome to my Flashcards app!</h2>
+            <h3>Choose subject:</h3>
+            <li><a href="{% url 'flashcards:learnerList' subject='Math' %}"> Math </a></li>
+            <li><a href="{% url 'flashcards:learnerList' subject='English' %}"> English </a></li>
+            <li><a href="{% url 'flashcards:learnerList' subject='Literature' %}"> Literature </a></li>
+            <li><a href="{% url 'flashcards:learnerList' subject='Physics' %}"> Physics </a></li>
+            <li><a href="{% url 'flashcards:learnerList' subject='Chemistry' %}"> Chemistry </a></li>
+            <li><a href="{% url 'flashcards:learnerList' subject='Biology' %}"> Biology </a></li>
+            <li><a href="{% url 'flashcards:learnerList' subject='Others' %}"> Others </a></li>
+        {% endblock content %}
+    </main>
+</body>
+
+</html>
