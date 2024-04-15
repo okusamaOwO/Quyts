@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'learners.apps.LearnersConfig',
     'flashcards.apps.FlashcardsConfig',
+    'forum.apps.ForumConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,9 +79,9 @@ WSGI_APPLICATION = 'Quyts.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'quyts',
-        'USER': 'quyts',
-        'PASSWORD': 'quytudaucon',
+        'NAME': 'forum_database',
+        'USER': 'forum_admin',
+        'PASSWORD': '23142004',
         'HOST': '127.0.0.1',
     }
 }
