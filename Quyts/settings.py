@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'Quyts.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'forum_database',
-        'USER': 'forum_admin',
-        'PASSWORD': '23142004',
+        'NAME': 'quyts',
+        'USER': 'quyts',
+        'PASSWORD': 'quytudaucon',
         'HOST': '127.0.0.1',
     }
 }
