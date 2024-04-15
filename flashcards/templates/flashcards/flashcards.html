@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Flashcards App</h1>
+    </header>
+    <main>
+        {% block content %}
+            <h3>{{ Subject }}: </h3>
+            <h4 style="color: Blue">&ensp;{{ owner.username }}'s Flashcard set:</h4>
+            <p>You are viewing <b>{{ setName }}</b> set from <b>{{ owner.username }}</b>'s repository</p>
+            {% if flashcardSet %}
+                <ul>
+                    {% for flashcard in flashcardSet %}
+                        <button onclick="flipFlashCard(this)" data_question="{{ flashcard.question }}" data_answer="{{ flashcard.answer }}">
+                            {{ flashcard.question }}
+                        </button>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endblock content %}
+    </main>
+
+    <script>
+        function flipFlashCard(button) {
+            var question = button.getAttribute("data_question");
+            var answer = button.getAttribute("data_answer");
+
+            if (button.innerText == question) {
+                button.innerText = answer;
+            } else {
+                button.innerText = question;
+            }
+        }
+    </script>
+</body>
+
+</html>
