@@ -15,13 +15,13 @@
             <h3>{{ Subject }}: </h3>
             <h4 style="color: Blue">&ensp;{{ owner.username }}'s Flashcard set:</h4>
             <p>&ensp;You are viewing <b>{{ setName }}</b> set from <b>{{ owner.username }}</b>'s repository</p>
-            <div>
-                <button id="flashcardButton" onclick="flipFlashCard(this)" data_question="" data_answer=""
-                        style="height:400px; width:700px; background-color:#29A6ED"></button>
+            <div style="text-align:center">
+                <button id="flashcardButton" onclick="flipFlashCard()" data_question="" data_answer=""
+                        style="height:300px; width:600px; background-color:#29A6ED;"></button>
             </div>
-            <div>
-                <button onclick="showPreviousCard()">Previous</button>
-                <button onclick="showNextCard()">Next</button>
+            <div style="text-align:center">
+                <button onclick="showPreviousCard()", style="width:100px">Previous</button>
+                <button onclick="showNextCard()", style="width:100px">Next</button>
             </div>
         {% endblock content %}
     </main>
@@ -52,14 +52,14 @@
             showFlashcard(currentFlashcardIndex);
         }
 
-        function flipFlashCard(button) {
-            var question = button.getAttribute("data_question");
-            var answer = button.getAttribute("data_answer");
+        function flipFlashCard() {
+            var question = flashcardButton.getAttribute("data_question");
+            var answer = flashcardButton.getAttribute("data_answer");
 
-            if (button.innerText == question) {
-                button.innerText = answer;
+            if (flashcardButton.innerText == question) {
+                flashcardButton.innerText = answer;
             } else {
-                button.innerText = question;
+                flashcardButton.innerText = question;
             }
         }
 
