@@ -13,11 +13,12 @@
     <main>
         {% block content %}
             <h3>{{ Subject }}: </h3>
-            {% if ownerList %}
+            <h4 style="color: Blue">&ensp;{{ owner.username }}'s Flashcard sets:</h4>
+            {% if flashcardSet %}
                 <ul>
-                    {% for owner in ownerList %}
+                    {% for flashcard in flashcardSet %}
                         <li>
-                            <a href="{% url 'flashcards:setList' subject=Subject username=owner.username %}">{{ owner.username }}'s Flashcard set</a>
+                            <a href="{% url 'flashcards:cardList' subject=Subject username=owner.username setname=flashcard.setName%}">{{ flashcard.setName }} set</a>
                         </li>
                     {% endfor %}
                 </ul>

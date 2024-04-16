@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Flashcards App</h1>
+    </header>
+    <main>
+        {% block content %}
+            <h3>{{ Subject }}: </h3>
+            <h4 style="color: Blue">&ensp;{{ owner.username }}'s Flashcard set:</h4>
+            <p>&ensp;You are viewing <b>{{ setName }}</b> set from <b>{{ owner.username }}</b>'s repository</p>
+            <div>
+                <button id="flashcardButton" onclick="flipFlashCard(this)" data_question="" data_answer=""
+                        style="height:400px; width:700px; background-color:#29A6ED"></button>
+            </div>
+            <div>
+                <button onclick="showPreviousCard()">Previous</button>
+                <button onclick="showNextCard()">Next</button>
+            </div>
+        {% endblock content %}
+    </main>
+
+    <script>
+        var flashcards = [
+            {% for flashcard in flashcardSet %}
+                { question: "{{ flashcard.question }}", answer: "{{ flashcard.answer }}" },
+            {% endfor %}
+        ];
+
+        var currentFlashcardIndex = 0;
+        var flashcardButton = document.getElementById('flashcardButton');
+
+        function showFlashcard(index) {
+            flashcardButton.setAttribute('data_question', flashcards[index].question);
+            flashcardButton.setAttribute('data_answer', flashcards[index].answer);
+            flashcardButton.innerText = flashcardButton.getAttribute('data_question');
+        }
+
+        function showPreviousCard() {
+            currentFlashcardIndex = Math.max(currentFlashcardIndex - 1, 0);
+            showFlashcard(currentFlashcardIndex);
+        }
+
+        function showNextCard() {
+            currentFlashcardIndex = Math.min(currentFlashcardIndex + 1, flashcards.length - 1);
+            showFlashcard(currentFlashcardIndex);
+        }
+
+        function flipFlashCard(button) {
+            var question = button.getAttribute("data_question");
+            var answer = button.getAttribute("data_answer");
+
+            if (button.innerText == question) {
+                button.innerText = answer;
+            } else {
+                button.innerText = question;
+            }
+        }
+
+        showFlashcard(currentFlashcardIndex);
+    </script>
+</body>
+
+</html>
