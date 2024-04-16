@@ -15,3 +15,17 @@ class Room(models.Model):
         return self.room_code
     def get_product_url(self):
       return reverse('room-info', args=[self.slug])
+  
+class Quiz(models.Model):
+    title = models.CharField(max_length=100, default="")
+    description = models.TextField(max_length=100, default="")
+    author = models.ForeignKey(Learner, on_delete=models.CASCADE)
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
+    text = models.TextField(max_length=100, default="")
+    answer1 = models.CharField(max_length=100, default='')
+    answer2 = models.CharField(max_length=100, default='')
+    answer3 = models.CharField(max_length=100, default='')
+    answer4 = models.CharField(max_length=100, default='')
+    correct_answer = models.IntegerField(choices=[(1, 'Answer 1'), (2, 'Answer 2'), (3, 'Answer 3'), (4, 'Answer 4')], default=1)
