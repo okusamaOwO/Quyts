@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     "channels",
     'learners.apps.LearnersConfig',
     'flashcards.apps.FlashcardsConfig',

@@ -13,9 +13,9 @@ def game(request):
     return render(request, 'Game.html', context)
 
 def room(request, room_code):
-    print(room_code)
     room = get_object_or_404(Room, room_code = room_code)
     context = {
         'room':room,
+        'room_code':room_code,
     }
     return render(request, 'lobby.html', context)
