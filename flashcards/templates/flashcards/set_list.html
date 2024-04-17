@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Flashcards App</h1>
+    </header>
+    <main>
+        {% block content %}
+            <h3>{{ Subject }}: </h3>
+            <h4 style="color: Blue">&ensp;{{ owner.username }}'s Flashcard sets:</h4>
+            {% if flashcardSet %}
+                <ul>
+                    {% for flashcard in flashcardSet %}
+                        <li>
+                            <a href="{% url 'flashcards:cardList' subject=Subject username=owner.username setname=flashcard.setName%}">{{ flashcard.setName }} set</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endblock content %}
+    </main>
+</body>
+
+</html>

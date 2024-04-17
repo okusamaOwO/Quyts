@@ -1,0 +1,18 @@
+<h1><Strong>Quyts's Forum</Strong></h1>
+<h2>What do you think?</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Post</button>
+</form>
+
+<h2>News!!!</h2>
+{% if posts_list %}
+    <ul>
+        {% for post in posts_list %}
+        <li><a href="{{ post.id }}/">{{ post.post_title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No post are available.</p>
+{% endif %}

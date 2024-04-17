@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "channels",
     'learners.apps.LearnersConfig',
     'flashcards.apps.FlashcardsConfig',
+    'forum.apps.ForumConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,3 +140,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Additional settings
 
 AUTH_USER_MODEL = 'learners.Learner'
+
+# Email
