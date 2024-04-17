@@ -10,7 +10,7 @@ class Room(models.Model):
     host = models.ForeignKey(Learner, related_name='hosted_rooms', on_delete=models.CASCADE)
     participants = models.ManyToManyField(Learner, related_name='joined_rooms')
     start_time = models.DateTimeField(auto_now_add= True)
-
+    
     def __str__(self) -> str:
         return self.room_code
     def get_product_url(self):
