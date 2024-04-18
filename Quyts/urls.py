@@ -22,7 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("learners.urls")),
     path('',include('game.urls')),
-
-    path('flashcards/', include("flashcards.urls"))
+    path('flashcards/', include("flashcards.urls")),
 
 ]

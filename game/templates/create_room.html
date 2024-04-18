@@ -1,0 +1,14 @@
+{% include "base.html" %}
+
+
+{% block content %}
+    moi ban tao phong o day 
+
+    <h2>Create a new room</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Room</button>
+    </form>
+
+{% endblock%}

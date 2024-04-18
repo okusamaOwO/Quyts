@@ -1,15 +1,28 @@
 {% include "base.html" %}
-
+{% load static %}
 
 {% block content %}
-<textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
+
+
+<p>Number of users online: <span id="user-count"></span></p>
+<br>
+
+<textarea id="chat-log" cols="50" rows="10"></textarea><br>
+    <input id="chat-message-input" type="text" size="50"><br>
     <input id="chat-message-submit" type="button" value="Send">
 
-<script>
+<hr>
+
+<button id ='start-game'>start game</button>
+<script  src="{% static 'js/game.js' %}"></script>
+
+<script >
+
 
     const roomCode = '{{room_code}}'
-    
+    const chat_log = document.getElementById('chat-log');
+    const chat_input = document.getElementById('chat-message-input');
+    const chat_submit = document.getElementById('chat-message-submit');
     const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -18,14 +31,19 @@
             + '/'
         );
 
+        
+
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            console.log(data.message)
+            document.querySelector('#user-count').innerHTML = data.message;
+    
         };
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
+
 
         document.querySelector('#chat-message-input').focus();
         document.querySelector('#chat-message-input').onkeyup = function(e) {
@@ -34,15 +52,38 @@
             }
         };
 
+        chatSocket.onopen = function(event) {
+            // Gửi tin nhắn tới server khi kết nối được thiết lập
+            socket.send("Hello, WebSocket!");
+        };
+
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
+            const count = querySelector('#user-count').value;
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
             }));
             messageInputDom.value = '';
         };
 
+        document.querySelector('#start-game').onclick = function(e) {
+                chat_input.classList.add('hidden')
+                chat_submit.classList.add('hidden')
+                chat_log.classList.add('hidden')
+                game_running()
+        }
+
+        chatSocket.send(JSON.stringify({
+            'message': 'da co nguoi vao',
+        }));
+
+        function game_running() {
+            alert('game da duoc bat dau')
+        }
+
 
 </script>
+
+
 {% endblock%}
