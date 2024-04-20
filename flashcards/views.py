@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.template import loader
-from .models import Cards, Subject
+from .models import Cards, Subject, Learner
 from learners.models import Learner
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+@login_required
 def topic(request):
+    learner = Learner.objects.get(username=request.user)
     return render(request, "flashcards/subject_list.html")
 
 
