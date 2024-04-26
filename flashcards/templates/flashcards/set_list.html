@@ -18,7 +18,7 @@
                 <ul>
                     {% for flashcard in flashcardSet %}
                         <li>
-                            <a href="{% url 'flashcards:cardList' subject=Subject username=owner.username setname=flashcard.setName%}">{{ flashcard.setName }} set</a>
+                            <a href="{% url 'flashcards:cardList' subject=Subject username=owner.username setname=flashcard.setName %}">{{ flashcard.setName }} set</a>
                         </li>
                     {% endfor %}
                 </ul>
