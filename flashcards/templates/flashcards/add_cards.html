@@ -12,7 +12,9 @@
     </header>
     <main>
         <h3>Add a Card:</h3>
-        <form action="" method="post">
+        <form action="{% url 'flashcards:add' username=owner.username %}" method="post">
+            {% csrf_token %}
+            {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
             <label for="subject">Subject: </label>
             <select id="subject" name="subject">
                 <option value="Math">Math</option>

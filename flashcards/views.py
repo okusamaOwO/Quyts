@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
-from .models import Cards, Subject, Learner
+
+from django.urls import reverse
+from .models import Cards, Subject
+
 from learners.models import Learner
 from django.contrib.auth.decorators import login_required
 
@@ -64,3 +67,32 @@ def flashcardList(request, subject, username, setname):
             "setName": setname
         }
         return render(request, "flashcards/flashcards.html", context)
+
+
+def addCard(request, username):
+    try:
+        owner = Learner.objects.get(username=username)
+    except Learner.DoesNotExist:
+        raise Http404("Not available user")
+    else:
+        if request.method == 'POST':
+            subject = Subject.objects.get(name=request.POST["subject"])
+            question = request.POST["question"]
+            answer = request.POST["answer"]
+            setName = request.POST["setname"]
+            if not setName:
+                setName = "Default"
+            if not subject or not question or not answer:
+                return render(
+                    request,
+                    "flashcards/add_cards.html",
+                    {
+                        "error_message": "Don't leave a blank",
+                        "owner": owner
+                    }
+                )
+            else:
+                Cards.objects.create(question=question, answer=answer, owner_id=owner.id, subject_id=subject.id, setName=setName)
+                return HttpResponseRedirect(reverse("flashcards:add", args=(username,)))
+        else:
+            return render(request, "flashcards/add_cards.html", {"owner": owner})
