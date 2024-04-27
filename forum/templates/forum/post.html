@@ -1,0 +1,17 @@
+<a href="/forum"> <button type="button" name="back"><b>back</b></button> </a>
+<h1>{{ post.post_title }}</h1>
+<p>{{ post.post_content }}</p>
+<h2>Comments:</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Comment</button>
+</form>
+<div>
+    {% for comment in post.comment_set.all %}
+    <blockquote style="margin-left: 20px; border-left: 5px solid #ccc; padding-left: 15px;">
+        <p>{{ comment.comment_context }}</p>
+    </blockquote>
+    {% endfor %}
+</div>
+

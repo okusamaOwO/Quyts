@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Flashcards App</h1>
+    </header>
+    <main>
+        <h3>Add a Card:</h3>
+        <form action="{% url 'flashcards:add' username=owner.username %}" method="post">
+            {% csrf_token %}
+            {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
+            <label for="subject">Subject: </label>
+            <select id="subject" name="subject">
+                <option value="Math">Math</option>
+                <option value="English">English</option>
+                <option value="Literature">Literature</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+                <option value="Others">Others</option>
+            </select><br><br>
+
+            <label for="setname">Flashcard set: </label>
+            <input type="text" id="setname" name="setname" style="height:50px; width:200px"><br><br>
+
+            <label for="question">Question: </label>
+            <textarea id="question" name="question" rows="4" cols="50"></textarea><br><br>
+
+            <label for="answer">Answer: </label>
+            <textarea id="answer" name="answer" rows="4" cols="50"></textarea><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </main>
+</body>
+
+</html>
