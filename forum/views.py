@@ -71,6 +71,6 @@ def postView(request, pk):
             vote_form = VoteForm()
     except Post.DoesNotExist:
         raise Http404("Not exist")
-    return render(request, "forum/post.html", {"post": post, "form": comment_form, "vote_form": vote_form})
+    return render(request, "forum/post.html", {"post": post, "comment_form": comment_form, "vote_form": vote_form})
 
 # Create your views here.
