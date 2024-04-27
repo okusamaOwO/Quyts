@@ -19,14 +19,15 @@
             <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
         </nav>
         <hr>
-        <h3>Add a new Card:</h3>
-        <form action="{% url 'flashcards:addCard' %}" method="post">
+        <h3>Delete a Card:</h3>
+        <form action="{% url 'flashcards:delCard' %}" method="post">
             {% csrf_token %}
             {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
             {% if inform_message %}<p style="color:green"><strong>{{ inform_message }}</strong></p>{% endif %}
 
-            <label for="tagName">Flashcard set: </label>
+            <label for="tagName">Subject: </label>
             <select id="tagName" name="tagName" style="height:50px; width:200px">
+                <option value=""></option>
                 {% for tag in tags %}
                     <option value="{{ tag }}">{{ tag.name }} - {{ tag.subject }}</option>
                 {% endfor %}
@@ -38,7 +39,7 @@
             <label for="answer">Answer: </label>
             <textarea id="answer" name="answer" rows="4" cols="50"></textarea><br><br>
 
-            <input type="submit" value="Submit">
+            <input type="submit" value="Delete">
         </form>
     </main>
 </body>

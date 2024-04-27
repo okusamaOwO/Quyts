@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 </head>
 
-
 <body>
     <header>
         <h1>Flashcards App</h1>
@@ -21,16 +20,17 @@
                 <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
             </nav>
             <hr>
-            <h2>Welcome to my Flashcards app!</h2>
-
-            <h3>Choose subject:</h3>
-            <li><a href="{% url 'flashcards:tagList' subject='Math' %}"> Math </a></li>
-            <li><a href="{% url 'flashcards:tagList' subject='English' %}"> English </a></li>
-            <li><a href="{% url 'flashcards:tagList' subject='Literature' %}"> Literature </a></li>
-            <li><a href="{% url 'flashcards:tagList' subject='Physics' %}"> Physics </a></li>
-            <li><a href="{% url 'flashcards:tagList' subject='Chemistry' %}"> Chemistry </a></li>
-            <li><a href="{% url 'flashcards:tagList' subject='Biology' %}"> Biology </a></li>
-            <li><a href="{% url 'flashcards:tagList' subject='Others' %}"> Others </a></li>
+            <h3>{{ Subject }}: </h3>
+            {% if tags %}
+                <p>&ensp;Choose a set:</p>
+                <ul>
+                    {% for tag in tags %}
+                        <li>
+                            <a href="{% url 'flashcards:cardList' subject=Subject tagname=tag.name %}">{{ tag.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         {% endblock content %}
     </main>
 </body>

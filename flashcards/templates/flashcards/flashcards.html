@@ -12,9 +12,18 @@
     </header>
     <main>
         {% block content %}
+            <nav>
+                <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
+                <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
+                <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
+                <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
+                <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
+            </nav>
+            <hr>
             <h3>{{ Subject }}: </h3>
-            <h4 style="color: Blue">&ensp;{{ owner.username }}'s Flashcard set:</h4>
-            <p>&ensp;You are viewing <b>{{ setName }}</b> set from <b>{{ owner.username }}</b>'s repository</p>
+            <p style="color: Blue"><strong>&ensp;Owner: {{ owner.username }}</strong></p>
+            <p style="color: Blue"><strong>&ensp;Tag: {{ tag.name }}</strong></p>
+
             <div style="text-align:center">
                 <button id="flashcardButton" onclick="flipFlashCard()" data_question="" data_answer=""
                         style="height:300px; width:600px; background-color:#29A6ED;"></button>
@@ -29,7 +38,7 @@
 
     <script>
         var flashcards = [
-            {% for flashcard in flashcardSet %}
+            {% for flashcard in flashcardList %}
                 { question: "{{ flashcard.question }}", answer: "{{ flashcard.answer }}" },
             {% endfor %}
         ];
