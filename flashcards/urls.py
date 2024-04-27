@@ -3,9 +3,11 @@ from . import views
 
 urlpatterns = [
     path("", views.topic, name="topic"),
-    path("add/<str:username>", views.addCard, name="add"),
-    path("<str:subject>/", views.learnerList, name="learnerList"),
-    path("<str:subject>/<str:username>", views.flashsetList, name="setList"),
-    path("<str:subject>/<str:username>/<str:setname>", views.flashcardList, name="cardList"),
+    path("addCard/", views.addCard, name="addCard"),
+    path("addTag/", views.addTag, name="addTag"),
+    path("delCard/", views.delCard, name="delCard"),
+    path("delTag/", views.delTag, name="delTag"),
+    path("<str:subject>/", views.tagList, name="tagList"),
+    path("<str:subject>/<str:tagname>/", views.flashcardList, name="cardList"),
 ]
 app_name = "flashcards"
