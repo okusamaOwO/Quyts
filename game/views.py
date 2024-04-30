@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 import os
-from . models import Room
+from . models import Room, Question
 from django.shortcuts import get_object_or_404
 # Create your views here.
 from .forms import RoomForm
@@ -17,18 +17,19 @@ def game(request):
 @login_required
 def room(request, room_code):
     room = get_object_or_404(Room, room_code = room_code)
-    
-        # Lấy session của người dùng
     session= request.session
     
-    # Kiểm tra xem người dùng đã được tạo session key chưa, nếu chưa, tạo mới
     
     user = request.user
+    quiz_id = room.quiz_id
+    questions = Question.objects.filter(quiz = quiz_id)
+
     context = {
         'room':room,
         'room_code':room_code,
         'user': user,
         'session' : session,
+        'questions':questions,
         
     }
     return render(request, 'lobby.html', context)
@@ -37,6 +38,8 @@ def create_room(request):
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
+            room = form.save(commit=False)
+            room.host = request.user
             form.save()
             return redirect('game') 
     else:

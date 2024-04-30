@@ -4,8 +4,9 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
 # Create your models here.
+from learners.contextprocessers import get_user
 
-  
+
 class Quiz(models.Model):
     title = models.CharField(max_length=100, default="")
     description = models.TextField(max_length=100, default="")
@@ -14,10 +15,11 @@ class Quiz(models.Model):
 class Room(models.Model):
     room_code = models.CharField(max_length=20, unique=True)
     room_name = models.CharField(max_length=100)
-    host = models.ForeignKey(Learner, related_name='hosted_rooms', on_delete=models.CASCADE)
-    participants = models.ManyToManyField(Learner, related_name='joined_rooms')
+    host = models.ForeignKey(Learner, related_name='hosted_rooms', on_delete=models.CASCADE, default= None )
+    participants = models.ManyToManyField(Learner, related_name='joined_rooms', null = True)
     start_time = models.DateTimeField(auto_now_add= True)
-    quiz = models.ForeignKey(Quiz, on_delete= models.CASCADE, default= "")
+    quiz = models.ForeignKey(Quiz, on_delete= models.CASCADE, default= "1", null= True)
+    private = models.BooleanField(default= True)
     
     def __str__(self) -> str:
         return self.room_code
@@ -40,15 +42,10 @@ class Room(models.Model):
         count = room.participants.count()
         return count
         
-class LeanerInRoom(models.Model):
-    room = models.ForeignKey(Room,related_name='room' , on_delete=models.CASCADE )
-    session_key = models.CharField(max_length=100)
-    user_id = models.CharField(max_length=100)
-    
 
 
 class Question(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions', null= True)
     text = models.TextField(max_length=100, default="")
     answer1 = models.CharField(max_length=100, default='')
     answer2 = models.CharField(max_length=100, default='')

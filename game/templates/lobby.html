@@ -14,15 +14,58 @@
 <hr>
 
 <button id ='start-game'>start game</button>
-<script  src="{% static 'js/game.js' %}"></script>
+
+<hr>
+
+<div class="container hidden" id = 'quiz-container'>
+    <h1>Quiz</h1>
+    <form class = 'hoang'>
+    {% for question in questions %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2>Câu hỏi {{ question.id }}: {{ question.text }}</h2>
+            <br>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="answer{{ question.id }}_1" value="{{question.answer1}}">
+                    <label class="form-check-label" for="answer{{ question.id }}_1">{{ question.answer1 }}</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="answer{{ question.id }}_2" value="{{question.answer2}}">
+                    <label class="form-check-label" for="question{{ question.id }}_2">{{ question.answer2 }}</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="answer{{ question.id }}_3" value="{{question.answer3}}">
+                    <label class="form-check-label" for="answer{{ question.id }}_3">{{ question.answer3 }}</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="answer{{ question.id }}_4" value="{{question.answer4}}">
+                    <label class="form-check-label" for="answer{{ question.id }}_4">{{ question.answer4 }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
 <script >
 
 
     const roomCode = '{{room_code}}'
+    const user = '{{user}}'
+    console.log(user)
     const chat_log = document.getElementById('chat-log');
     const chat_input = document.getElementById('chat-message-input');
     const chat_submit = document.getElementById('chat-message-submit');
+    const quiz_container = document.querySelector('.container')
+
+    let = crrIndex = 0;
+
+
+    
+
     const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -32,11 +75,16 @@
         );
 
         
-
+    
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            console.log(data.message)
-            document.querySelector('#user-count').innerHTML = data.message;
+
+
+            console.log(data.count)
+            document.querySelector('#user-count').innerHTML = data.count;
+
+            
+            
     
         };
 
@@ -53,33 +101,45 @@
         };
 
         chatSocket.onopen = function(event) {
-            // Gửi tin nhắn tới server khi kết nối được thiết lập
-            socket.send("Hello, WebSocket!");
+        
         };
 
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            const count = querySelector('#user-count').value;
             chatSocket.send(JSON.stringify({
-                'message': message,
+                'message_text': message,
             }));
             messageInputDom.value = '';
         };
 
         document.querySelector('#start-game').onclick = function(e) {
-                chat_input.classList.add('hidden')
-                chat_submit.classList.add('hidden')
-                chat_log.classList.add('hidden')
                 game_running()
         }
 
-        chatSocket.send(JSON.stringify({
-            'message': 'da co nguoi vao',
-        }));
+ 
+        document.querySelector('.hoang').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const formSerialized = Object.fromEntries(formData.entries());
+            chatSocket.send(JSON.stringify(formSerialized));
+
+
+            chatSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                alert('chuc mung ban da nop bai thanh cong , diem cua ban la :' + data.score)
+        
+            };
+        });
+
+
 
         function game_running() {
-            alert('game da duoc bat dau')
+            chat_input.classList.add('hidden')
+            chat_submit.classList.add('hidden')
+            chat_log.classList.add('hidden')
+            quiz_container.classList.remove('hidden')
         }
 
 

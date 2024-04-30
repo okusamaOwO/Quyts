@@ -68,7 +68,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 
-                'learners.contextprocessers.get_user_name'
+                'learners.contextprocessers.get_user_name',
             ],
         },
     },
