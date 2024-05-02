@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.utils import timezone
-
+from django.views.decorators.http import require_POST
 from .models import Post, Comment
 
 
@@ -72,5 +72,18 @@ def postView(request, pk):
     except Post.DoesNotExist:
         raise Http404("Not exist")
     return render(request, "forum/post.html", {"post": post, "comment_form": comment_form, "vote_form": vote_form})
+@require_POST
+def like_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    post.post_like = F('post_like') + 1
+    post.save()
+    return JsonResponse({'post_like': post.post_like})
+
+@require_POST
+def dislike_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    post.post_dislike = F('post_dislike') + 1
+    post.save()
+    return JsonResponse({'post_dislike': post.post_dislike})
 
 # Create your views here.
