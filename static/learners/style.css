@@ -1,0 +1,204 @@
+@import url('https://fonts.cdnfonts.com/css/be-vietnam-pro');
+
+.subject-math::after {
+  content: "";
+  display: inline-block;
+  width: 20px; /* Adjust the size as needed */
+  height: 20px;
+  background-image: url("{% static 'learners/pictures/math.jpg' %}"); /* Using the static template tag */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.subject-english::after {
+  content: "Tiếng Anh";
+}
+
+.subject-literature::after {
+  content: "Văn học";
+}
+
+.subject-physics::after {
+  content: "Vật lý";
+}
+
+.subject-chemistry::after {
+  content: "Hóa học";
+}
+
+.subject-biology::after {
+  content: "Sinh học";
+}
+
+.subject-others::after {
+  content: "Khác";
+}
+.choose-set{
+    padding-top:40px;
+}
+.post {
+    padding-top: 40px;
+    width: 80%; /* Add this line */
+    margin: 0 auto; /* Add this line */
+    text-align: left; /* Change this line */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 100vh;
+}
+.comment-box {
+
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    width: 98%;
+    height: 200px;
+    /*margin: 0 auto;*/
+    border-radius: 20px;
+    margin-left: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.header { /* nav bar ở trên */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 20px;
+    background-color: #FFFF;
+}
+.forum {
+    padding-top: 40px;
+    width: fit-content; /* Add this line */
+    margin: 0 auto; /* Add this line */
+    text-align: left; /* Change this line */
+}
+button{
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 1000;
+    font-size: 30px;
+    color: #DE8556;
+    text-decoration: none;
+    margin-left:20px;
+    margin-top: 30px;
+    border-width: 2px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-color: #58355E;
+    background-color: #FFE7D4;
+    transition: background-color 0.3s ease-in-out;
+}
+button:hover {
+    background-color: #DE8556; /* Change the background color on hover */
+    color: white; /* Optionally, change the text color on hover */
+}
+.post-status {
+    border-width: 0px;
+    border-color: #3F612D;
+    background-color: #AFE194;
+    border-radius: 10px;
+    width: 100px;
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 800;
+    font-size: 16px;
+    color: #3F612D;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.logo span {
+    position: relative;
+    color:#DE8556;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+
+}
+.logo { /*thật ra không phải logo :D, là cái chữ quýt ở góc trên bên trái */
+    /* Add styles for your logo here */
+    /* Example: */
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 1000;
+    font-size: 40px;
+    color: #DE8556;
+    text-decoration: none;
+    margin-left:20px;
+    margin-top: 30px;
+
+    /* You can add more styles as needed */
+}
+.quyts { /* quả quýt */
+    margin-top: -30px; /* Adjust the margin-top value to enhance vertical positioning */
+}
+.navbar a { /* thanh bar bên phải mà có 3 cái nút */
+    /* Add styles for your navigation links here */
+    /* Example: */
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 600;
+    color: #79B473;
+    text-decoration: none;
+    margin-right: 20px;
+    /* You can add more styles as needed */
+}
+.search { /* thanh search */
+    width: 500px;
+    display: flex;
+    align-items: center;
+    border-radius:28px;
+    background-color:#FFE7D4;
+    padding:10px;
+    text-align: center;
+
+}
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns the fields to the left */
+}
+.rounded-textarea {
+    border-radius: 10px;
+    border-width: 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    /* Add any other desired styles */
+}
+.post-title {
+     font-family: 'Be VietNam Pro', cursive;
+    font-weight: 800;
+    color: #79B473;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: color 0.3s ease-in-out; /* Add transition for color change */
+
+}
+.post-title:hover {
+    color: #264923; /* Change the color when clicked */
+}
+.search-input { /* cái khung ở trong */
+    width:400px;
+    font-size:16px;
+    font-family: 'Be VietNam Pro', cursive;
+    color:#190B28;
+    outline:none;
+    border:none;
+    background-color: transparent;
+}
+.search-input::-webkit-search-cancel-button { /* phím cancel */
+    position: relative;
+    align-items: flex-end; /* Adjust the position of the clear button */
+}
+
+body { /*là nguyên cái đằng sau thôi :D */
+    background-color: #FFE7D4 ;
+}
+.comment-text {
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 600;
+    color: #190B28;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.like-dislike {
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 600;
+    color: #190B28;
+    text-decoration: none;
+    margin-right: 50px;
+    text-align: end;
+}

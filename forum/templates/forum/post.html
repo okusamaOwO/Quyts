@@ -1,0 +1,40 @@
+{% extends "learners/index.html" %}
+{% load static %}
+
+{% block nav %}
+    <a href="">Tạo flashcard</a>
+    <a href="">Diễn đàn</a>
+    <a href="">Trò chơi</a>
+{% endblock %}
+{% block post %}
+    <div class="post">
+        <h1 class="logo">
+            <span>
+                {{ post.post_title }}
+            </span>
+        </h1>
+        <div class="comment-box">
+            <p class="comment-text">{{ post.post_content }}</p>
+        </div>
+        <p class="like-dislike">Like: {{ post.post_like }}      Dislike: {{ post.post_dislike }}</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ vote_form.as_ul }}
+            <button type="submit">Vote</button>
+        </form>
+        <h2>Comments:</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button type="submit">Comment</button>
+        </form>
+        <div>
+            {% for comment in post.comment_set.all %}
+            <blockquote style="margin-left: 20px; border-left: 5px solid #ccc; padding-left: 15px;">
+                <p>{{ comment.comment_context }}</p>
+            </blockquote>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,40 @@
+{% extends "learners/index.html" %}
+{% load static %}
+
+{% block nav %}
+    <a href="">Tạo flashcard</a>
+    <a href="">Diễn đàn</a>
+    <a href="">Trò chơi</a>
+{% endblock %}
+{% block forum %}
+<div class="container">
+        <div class="row">
+            <a href="" class="logo"><span>Bạn đang nghĩ gì ?</span></a>
+        </div>
+        <div class="row">
+            <form method="post">
+                <div class="post-status">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+                <div class="submit-button">
+                    <button type="submit">Post</button>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+                <a href="" class="logo"><span>Các bài viết mới đây</span></a>
+        </div>
+        <div class="row">
+            {% if posts_list %}
+                <ul>
+                    {% for post in posts_list %}
+                        <li><a href="{{ post.id }}/" class="post-title">{{ post.post_title }}(Like: {{ post.post_like }} Dislike: {{ post.post_dislike }})</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No post are available.</p>
+        </div>
+</div>
+{% endif %}
+{% endblock %}

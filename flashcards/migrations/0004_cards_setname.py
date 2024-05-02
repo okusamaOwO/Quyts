@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='cards',
-            name='setName',
+            name='tag',
             field=models.CharField(default='Default', max_length=100),
         ),
     ]
