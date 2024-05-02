@@ -1,80 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Flashcards</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-</head>
-
-<body>
-    <header>
-        <h1>Flashcards App</h1>
-    </header>
-    <main>
-        {% block content %}
-            <nav>
-                <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
-                <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
-                <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
-                <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
-                <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
-            </nav>
-            <hr>
-            <h3>{{ Subject }}: </h3>
-            <p style="color: Blue"><strong>&ensp;Owner: {{ owner.username }}</strong></p>
-            <p style="color: Blue"><strong>&ensp;Tag: {{ tag.name }}</strong></p>
-
-            <div style="text-align:center">
-                <button id="flashcardButton" onclick="flipFlashCard()" data_question="" data_answer=""
-                        style="height:300px; width:600px; background-color:#29A6ED;"></button>
-            </div>
-            <div style="text-align:center">
-                <button onclick="showPreviousCard()", style="width:100px">Previous</button>
-                <button onclick="showNextCard()", style="width:100px">Next</button>
-            </div>
-        {% endblock content %}
-    </main>
-
-
-    <script>
-        var flashcards = [
-            {% for flashcard in flashcardList %}
-                { question: "{{ flashcard.question }}", answer: "{{ flashcard.answer }}" },
-            {% endfor %}
-        ];
-
-        var currentFlashcardIndex = 0;
-        var flashcardButton = document.getElementById('flashcardButton');
-
-        function showFlashcard(index) {
-            flashcardButton.setAttribute('data_question', flashcards[index].question);
-            flashcardButton.setAttribute('data_answer', flashcards[index].answer);
-            flashcardButton.innerText = flashcardButton.getAttribute('data_question');
-        }
-
-        function showPreviousCard() {
-            currentFlashcardIndex = Math.max(currentFlashcardIndex - 1, 0);
-            showFlashcard(currentFlashcardIndex);
-        }
-
-        function showNextCard() {
-            currentFlashcardIndex = Math.min(currentFlashcardIndex + 1, flashcards.length - 1);
-            showFlashcard(currentFlashcardIndex);
-        }
-
-        function flipFlashCard() {
-            var question = flashcardButton.getAttribute("data_question");
-            var answer = flashcardButton.getAttribute("data_answer");
-
-            if (flashcardButton.innerText == question) {
-                flashcardButton.innerText = answer;
-            } else {
-                flashcardButton.innerText = question;
+    {% extends "learners/index.html" %}
+    {% load static %}
+    
+    {% block nav %}
+        <a href="">Tạo flashcard</a>
+        <a href="">Diễn đàn</a>
+        <a href="">Trò chơi</a>
+    {% endblock %}
+    
+    {% block flashcards %}
+        <header>
+            <h1>Flashcards App</h1>
+        </header>
+        <main>
+            {% block content %}
+                <nav>
+                    <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
+                    <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
+                    <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
+                    <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
+                    <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
+                </nav>
+                <hr>
+                <h3>{{ Subject }}: </h3>
+                <p style="color: Blue"><strong>&ensp;Owner: {{ owner.username }}</strong></p>
+                <p style="color: Blue"><strong>&ensp;Tag: {{ tag.name }}</strong></p>
+    
+                <div style="text-align:center">
+                    <button id="flashcardButton" onclick="flipFlashCard()" data_question="" data_answer=""
+                            style="height:300px; width:600px; background-color:#29A6ED;"></button>
+                </div>
+                <div style="text-align:center">
+                    <button onclick="showPreviousCard()", style="width:100px">Previous</button>
+                    <button onclick="showNextCard()", style="width:100px">Next</button>
+                </div>
+            {% endblock content %}
+        </main>
+    
+    
+        <script>
+            var flashcards = [
+                {% for flashcard in flashcardList %}
+                    { question: "{{ flashcard.question }}", answer: "{{ flashcard.answer }}" },
+                {% endfor %}
+            ];
+    
+            var currentFlashcardIndex = 0;
+            var flashcardButton = document.getElementById('flashcardButton');
+    
+            function showFlashcard(index) {
+                flashcardButton.setAttribute('data_question', flashcards[index].question);
+                flashcardButton.setAttribute('data_answer', flashcards[index].answer);
+                flashcardButton.innerText = flashcardButton.getAttribute('data_question');
             }
-        }
-
-        showFlashcard(currentFlashcardIndex);
-    </script>
-</body>
-
-</html>
+    
+            function showPreviousCard() {
+                currentFlashcardIndex = Math.max(currentFlashcardIndex - 1, 0);
+                showFlashcard(currentFlashcardIndex);
+            }
+    
+            function showNextCard() {
+                currentFlashcardIndex = Math.min(currentFlashcardIndex + 1, flashcards.length - 1);
+                showFlashcard(currentFlashcardIndex);
+            }
+    
+            function flipFlashCard() {
+                var question = flashcardButton.getAttribute("data_question");
+                var answer = flashcardButton.getAttribute("data_answer");
+    
+                if (flashcardButton.innerText == question) {
+                    flashcardButton.innerText = answer;
+                } else {
+                    flashcardButton.innerText = question;
+                }
+            }
+    
+            showFlashcard(currentFlashcardIndex);
+        </script>
+    {% endblock %}

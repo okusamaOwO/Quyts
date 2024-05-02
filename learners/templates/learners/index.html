@@ -1,1 +1,59 @@
-<h1>this is index :D</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'learners/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="container-fluid bg-#FFFFFF text-white pt-3">
+        <div class="header">
+            <div class="row">
+                <div class="col">
+                    <a href="#" class="logo">Quýt</a>
+                    <img class="quyts" src="{% static 'learners/pictures/quyst2.png' %}" style="width: 100px; height: 80px">
+                </div>
+                <div class="col">
+                    <div class="search">
+                        <form>
+                        <span class="search-icon material-symbols-outlined">
+                            search
+                        </span>
+                        <input class="search-input" type="search" placeholder="Tìm kiếm Flashcard"/>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <nav class="navbar">
+                        {% block nav %}
+                        <a href="flashcards">Tạo flashcard</a>
+                        <a href="forum">Diễn đàn</a>
+                        <a href="#">Trò chơi</a>
+                        {% endblock %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="forum">
+                {% block forum %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="col">
+            {% block post %}
+            {% endblock %}
+        </div>
+         <div class="col">
+                {% block flashcards %}
+                {% endblock %}
+        </div>
+
+    </div>
+</body>
+</html>
