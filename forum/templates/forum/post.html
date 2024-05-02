@@ -19,14 +19,17 @@
         <p class="like-dislike">Like: {{ post.post_like }}      Dislike: {{ post.post_dislike }}</p>
         <form method="post">
             {% csrf_token %}
-            {{ vote_form.as_ul }}
-            <button type="submit">Vote</button>
+            <div class="vote-form">
+                {{ vote_form.as_ul}}
+                <button class="smaller-button" type="submit">Vote</button>
+            </div>
         </form>
-        <h2>Comments:</h2>
         <form method="post">
+        <div class="vote-form">
             {% csrf_token %}
             {{ comment_form }}
-            <button type="submit">Comment</button>
+            <button class="smaller-button" type="submit">Comment</button>
+        </div>
         </form>
         <div>
             {% for comment in post.comment_set.all %}
