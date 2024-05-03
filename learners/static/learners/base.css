@@ -1,0 +1,36 @@
+@import url('https://fonts.cdnfonts.com/css/be-vietnam-pro');
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 100vh;
+}
+.options-container{
+    padding-top:100px;
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 700;
+    /* Adjust the values as needed */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin: 0 20px; /* Adjust the value as needed */
+    text-align: center;
+}
+.option {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #626267;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    margin: 0 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+.option:hover {
+    background-color: #626267;
+    color: #fff;
+}
+

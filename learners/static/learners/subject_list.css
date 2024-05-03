@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+.subject_list {
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 800;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.subject_list li {
+    list-style: none;
+    margin: 10px;
+}
+
+.subject_list a {
+    display: inline-block;
+    width: 150px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+    text-decoration: none;
+    color: #333; /* Adjust the text color as needed */
+    font-size: 16px; /* Adjust the font size as needed */
+    padding-top: 160px; /* Adjust the padding-top value to position the text below the image */
+}
+.choose{
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 1000;
+    font-size: 60px;
+    color:#DE8556;
+    text-align: center;
+    padding-top:50px;
+}
+/* Individual subject styles */
+.subject_list a[href*="Math"] {
+    background-image: url("pictures/math.jpg");
+}
+.subject_list a[href*="English"] {
+    background-image: url("pictures/english.jpg");
+}
+.subject_list a[href*="Biology"] {
+    background-image: url("pictures/biology.jpg");
+}
+.subject_list a[href*="Chemistry"] {
+    background-image: url("pictures/chemistry.jpg");
+}
+.subject_list a[href*="Physics"] {
+    background-image: url("pictures/physics.jpg");
+}
+.subject_list a[href*="Literature"] {
+    background-image: url("pictures/literature.jpg");
+}
+.subject_list a[href*="Others"] {
+    background-image: url("pictures/others.jpg");
+}
