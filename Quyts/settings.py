@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'daphne',
     "channels",
+    'game.apps.GameConfig',
     'learners.apps.LearnersConfig',
     'flashcards.apps.FlashcardsConfig',
     'forum.apps.ForumConfig',
@@ -41,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'game.apps.GameConfig',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +67,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                
                 'learners.contextprocessers.get_user_name',
             ],
         },
@@ -77,6 +76,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Quyts.wsgi.application'
 ASGI_APPLICATION = 'Quyts.asgi.application'
 
+ASGI_APPLICATION = 'Quyts.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 import os
 REDIS_HOST= "redis-13190.c239.us-east-1-2.ec2.cloud.redislabs.com"
@@ -96,7 +102,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'quyts',
         'USER': 'quyts',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'quytudaucon',
         'HOST': '127.0.0.1',
     }
 }
@@ -135,8 +141,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-STATIC_URL = '/static/'
-STATICFILES_DIRS  = [BASE_DIR / 'static']
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR /'learners/static/']
+STATIC_ROOT = BASE_DIR / 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

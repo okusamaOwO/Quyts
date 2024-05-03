@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Flashcards App</h1>
+    </header>
+    <main>
+        <nav>
+            <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
+            <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
+            <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
+            <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
+            <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
+        </nav>
+        <hr>
+        <h3>Add a new Flashcard Set:</h3>
+        <form action="{% url 'flashcards:addTag' %}" method="post">
+            {% csrf_token %}
+            {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
+
+            <label for="subject">Subject: </label>
+            <select id="subject" name="subject" style="height:50px; width:200px">
+                {% for subject in subjects %}
+                    <option value="{{ subject }}">{{ subject.name }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="tagName">Name of set: </label>
+            <textarea id="tagName" name="tagName" rows="4" cols="50"></textarea><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </main>
+</body>
+
+</html>
