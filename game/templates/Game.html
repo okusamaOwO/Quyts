@@ -1,0 +1,56 @@
+{% include "base.html" %}
+
+
+
+
+
+
+
+{% block content %}
+<h1>
+    Choi game o day nhe
+</h1>
+<hr>
+<button id = 'create-room'>
+    Create Room
+</button>
+<hr>
+What chat room would you like to enter?<br>
+<input id="room-name-input" type="text" size="100"><br>
+<input id="room-name-submit" type="button" value="Enter">
+
+
+<hr>
+<h1>list cac phong : </h1>
+<br>
+{% for room in rooms %}
+{% if not room.private %}
+    <h1>{{ room.room_code }}</h1>
+    <h1>{{ room.room_name }}</h1>
+    Created by <b>@{{ room.host.username }}</b>
+    <hr>
+{% else %}
+
+
+{% endif %}
+{% endfor %}
+
+
+<script>
+    document.querySelector('#room-name-input').focus();
+    document.querySelector('#room-name-input').onkeyup = function(e) {
+        if (e.key === 'Enter') {  // enter, return
+            document.querySelector('#room-name-submit').click();
+        }
+    };
+
+    document.querySelector('#room-name-submit').onclick = function(e) {
+        var roomName = document.querySelector('#room-name-input').value;
+        window.location.pathname = '/game/' + roomName + '/';
+    };
+
+    document.querySelector('#create-room').onclick = function(e) {
+        window.location.pathname = '/room/create_room/';
+    }
+</script>
+{% endblock%}

@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    "channels",
+    'game.apps.GameConfig',
     'learners.apps.LearnersConfig',
     'flashcards.apps.FlashcardsConfig',
     'forum.apps.ForumConfig',
@@ -65,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'learners.contextprocessers.get_user_name',
             ],
         },
     },
@@ -72,6 +76,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Quyts.wsgi.application'
 
+ASGI_APPLICATION = 'Quyts.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
