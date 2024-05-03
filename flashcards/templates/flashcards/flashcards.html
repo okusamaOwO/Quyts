@@ -1,26 +1,10 @@
-    {% extends "learners/index.html" %}
-    {% load static %}
-    
-    {% block nav %}
-        <a href="">Tạo flashcard</a>
-        <a href="">Diễn đàn</a>
-        <a href="">Trò chơi</a>
-    {% endblock %}
-    
-    {% block flashcards %}
-        <header>
-            <h1>Flashcards App</h1>
-        </header>
-        <main>
-            {% block content %}
-                <nav>
-                    <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
-                    <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
-                    <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
-                    <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
-                    <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
-                </nav>
-                <hr>
+{% extends "learners/base_flashcards.html" %}
+{% load static %}
+{% block flashcards %}
+    <link rel="stylesheet" href="{% static 'learners/flashcards.css' %}">
+    <div class="common-heading">
+        Delete a flashcard set
+    </div>
                 <h3>{{ Subject }}: </h3>
                 <p style="color: Blue"><strong>&ensp;Owner: {{ owner.username }}</strong></p>
                 <p style="color: Blue"><strong>&ensp;Tag: {{ tag.name }}</strong></p>
@@ -33,8 +17,6 @@
                     <button onclick="showPreviousCard()", style="width:100px">Previous</button>
                     <button onclick="showNextCard()", style="width:100px">Next</button>
                 </div>
-            {% endblock content %}
-        </main>
     
     
         <script>
@@ -76,4 +58,4 @@
     
             showFlashcard(currentFlashcardIndex);
         </script>
-    {% endblock %}
+{% endblock %}

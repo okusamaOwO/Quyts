@@ -1,9 +1,41 @@
 @import url('https://fonts.cdnfonts.com/css/be-vietnam-pro');
-
+.comment{
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 700;
+    margin-left: 20px;
+    border-left: 5px solid #ccc;
+    padding-left: 15px;
+    font-size: 15px;
+    color: darkslategray;
+}
+.subject_list {
+    padding-top:100px;
+}
+.smaller-button{
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 1000;
+    font-size: 20px;
+    color: #DE8556;
+    text-decoration: none;
+    margin-left:20px;
+    margin-top: 10px;
+    border-width: 2px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-color: #58355E;
+    background-color: #FFE7D4;
+    transition: background-color 0.3s ease-in-out;
+}
+.vote-form {
+    padding-left: 10px;
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 700;
+    font-size: 20px;
+    color: darkslategray;
+}
 .subject-math::after {
   content:"Toán";
 }
-
 .subject-english::after {
   content: "Tiếng Anh";
 }
@@ -66,6 +98,7 @@
     margin: 0 auto; /* Add this line */
     text-align: left; /* Change this line */
 }
+
 button{
     font-family: 'Be VietNam Pro', cursive;
     font-weight: 1000;

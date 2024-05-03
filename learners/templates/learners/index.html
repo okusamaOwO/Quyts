@@ -31,7 +31,7 @@
                 <div class="col">
                     <nav class="navbar">
                         {% block nav %}
-                        <a href="flashcards">Tạo flashcard</a>
+                        <a href="flashcards">Flashcard</a>
                         <a href="forum">Diễn đàn</a>
                         <a href="#">Trò chơi</a>
                         {% endblock %}
@@ -53,7 +53,11 @@
                 {% block flashcards %}
                 {% endblock %}
         </div>
-
+        <div class="col">
+                {% block base %}
+                {% endblock %}
+        </div>
     </div>
 </body>
 </html>
+
