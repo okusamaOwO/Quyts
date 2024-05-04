@@ -8,7 +8,7 @@
         {% if error_message %}<p class="error-message"><strong>{{ error_message }}</strong></p>{% endif %}
         {% if inform_message %}<p class="inform-message"><strong>{{ inform_message }}</strong></p>{% endif %}
 
-        <label class="del-card-label" for="tagName">Subject:</label>
+        <label class="del-card-label" for="tagName">Flashcard Set:</label>
         <select class="del-card-select" id="tagName" name="tagName">
             <option value=""></option>
             {% for tag in tags %}
