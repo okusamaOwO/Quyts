@@ -1,25 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Flashcards</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-</head>
-
-<body>
-    <header>
-        <h1>Flashcards App</h1>
-    </header>
-    <main>
-        {% block content %}
-            <nav>
-                <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
-                <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
-                <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
-                <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
-                <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
-            </nav>
-            <hr>
+{% extends "learners/base_flashcards.html" %}
+{% load static %}
+{% block del_tag_ %}
+    <link rel="stylesheet" href="{% static 'learners/tag_list.css' %}">
+{% block tag_list %}
             <h3>{{ Subject }}: </h3>
             {% if tags %}
                 <p>&ensp;Choose a set:</p>
@@ -35,4 +18,4 @@
     </main>
 </body>
 
-</html>
+{% endblock %}

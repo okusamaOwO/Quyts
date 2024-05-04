@@ -1,29 +1,15 @@
-{% extends "learners/index.html" %}
+{% extends "learners/base_flashcards.html" %}
 {% load static %}
-
-{% block flashcards %}
-    <main class="choose-set">
-        {% block content %}
-            <nav>
-                <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
-                <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
-                <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
-                <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
-                <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
-            </nav>
-            <hr>
-            <h2 about>Welcome to my Flashcards app!</h2>
-
-            <h3>Choose subject:</h3>
-            <ul>
-                <li><a href="{% url 'flashcards:tagList' subject='Math' %}" class="subject-math"></a></li>
-                <li><a href="{% url 'flashcards:tagList' subject='English' %}" class="subject-english"></a></li>
-                <li><a href="{% url 'flashcards:tagList' subject='Literature' %}" class="subject-literature"></a></li>
-                <li><a href="{% url 'flashcards:tagList' subject='Physics' %}" class="subject-physics"></a></li>
-                <li><a href="{% url 'flashcards:tagList' subject='Chemistry' %}" class="subject-chemistry"></a></li>
-                <li><a href="{% url 'flashcards:tagList' subject='Biology' %}" class="subject-biology"></a></li>
-                <li><a href="{% url 'flashcards:tagList' subject='Others' %}" class="subject-others"></a></li>
-            </ul>
-        {% endblock content %}
-    </main>
-{% endblock flashcards %}
+{% block subject_list %}
+    <link rel="stylesheet" href="{% static 'learners/subject_list.css' %}">
+    <h3 class="choose">Choose subject:</h3>
+    <div class="subject_list">
+        <li><a href="{% url 'flashcards:tagList' subject='Math' %}">Math</a></li>
+        <li><a href="{% url 'flashcards:tagList' subject='English' %}">English</a></li>
+        <li><a href="{% url 'flashcards:tagList' subject='Literature' %}">Literature</a></li>
+        <li><a href="{% url 'flashcards:tagList' subject='Physics' %}">Physics</a></li>
+        <li><a href="{% url 'flashcards:tagList' subject='Chemistry' %}">Chemistry</a></li>
+        <li><a href="{% url 'flashcards:tagList' subject='Biology' %}">Biology</a></li>
+        <li><a href="{% url 'flashcards:tagList' subject='Others' %}">Others</a></li>
+    </div>
+{% endblock %}
