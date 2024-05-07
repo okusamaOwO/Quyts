@@ -20,16 +20,18 @@ def room(request, room_code):
     session= request.session
     
     
-    user = request.user
+    user_name = request.user.username
     quiz_id = room.quiz_id
+    host_name = room.host.username
     questions = Question.objects.filter(quiz = quiz_id)
 
     context = {
         'room':room,
         'room_code':room_code,
-        'user': user,
+        'user_name': user_name,
         'session' : session,
         'questions':questions,
+        'host_name' : host_name,
         
     }
     return render(request, 'lobby.html', context)
