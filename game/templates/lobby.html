@@ -1,161 +1,294 @@
-{% include "base.html" %}
-{% load static %}
+{% include "base.html" %} {% load static %} {% block content %}
 
-{% block content %}
+<p id="user-online">So nguoi trong phong: <span id="user-count"></span></p>
+<br />
 
+<textarea id="chat-log" cols="50" rows="10"></textarea><br />
+<input id="chat-message-input" type="text" size="50" /><br />
+<input id="chat-message-submit" type="button" value="Send" />
 
-<p id = 'user-online'>Number of users online: <span id="user-count"></span></p>
-<br>
+<hr />
 
-<textarea id="chat-log" cols="50" rows="10"></textarea><br>
-    <input id="chat-message-input" type="text" size="50"><br>
-    <input id="chat-message-submit" type="button" value="Send">
+<button id="start-game">start game</button>
 
-<hr>
+<hr />
 
-<button id ='start-game'>start game</button>
+<div id="question-container" class="container hidden">
+  <div id="timer" class="text-center mb-3"></div>
+  <div id="score" class="text-center mb-3">Score: 0</div>
+  <div class="row" id="question-row"></div>
+  <div class="row row-cols-2" id="answer-row"></div>
+</div>
 
-<hr>
-
-
-    {% for question in questions %}
-    <div class="container hidden  " id = 'quiz-container' >
-    <h1>{{question.text}}</h1>
-    <div class="container">
-        <div class="row row-cols-2">
-          <div class="col" class = "question_A" style="background-color: brown;">{{question.answer1}}</div>
-          <div class="col" class = "question_B" style="background-color: rgb(65, 165, 42);">{{question.answer2}}</div>
-          <div class="col" class = "question_C" style="background-color: rgb(118, 42, 165);">{{question.answer3}}</div>
-          <div class="col" class = "question_D" style="background-color: rgb(155, 165, 42);">{{question.answer4}}</div>
-        </div>
-      </div>
-    </div>
-
-    {% endfor %}
+<script>
+  const roomCode = "{{room_code}}";
+  const user_name = "{{user_name}}";
+  const host_name = "{{host_name}}";
+  const questions_json = {{questions_json|safe}};
+  const questions = questions_json
 
 
-<script >
 
 
-    const roomCode = '{{room_code}}'
-    const user_name = '{{user_name}}'
-    const host_name = '{{host_name}}'
-    const questions = '{{ questions|safe }}'
-    const chat_log = document.getElementById('chat-log');
-    const chat_input = document.getElementById('chat-message-input');
-    const chat_submit = document.getElementById('chat-message-submit');
-    const quiz_container = document.querySelector('#quiz-container')
-    const user_count = document.getElementById('user-count')
-    const user_online = document.getElementById('user-online')
-    let = crrIndex = 0;
+let score= 0;
 
 
-    
-    console.log(host_name);
-    const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/game/'
-            + roomCode
-            + '/'
-        );
-
-        
-    
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            console.log(data)
-
-
-            console.log(data.count)
-            document.querySelector('#user-count').innerHTML = data.count;
-
-            switch(data.type) {
-                case 'chat_message' : 
-                    if(data.message != ''){
-                        chat_log.innerHTML = chat_log.value + data.user_name + " : " +  data.message + "\n"
-                    }
-                case 'number_user_message':
-                    user_count.innerHTML = data.count
-                case 'start_game_message':
-                    if(data.run == 'true') {
-                        game_running()
-                    }
-                case 'leave_room_message':
-            }
-            
-    
-        };
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        $(document).ready(function() {
-            $('.col').on('click', function() {
-                alert('Bạn đã trả lời câu hỏi');
-                const msg = {
-                    type : 'submit_answer',
-                    
-                }
-
-            
-            });
-        });
-
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        chatSocket.onopen = function(event) {
-        
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            const msg = {
-                type : 'chat',
-                text : message,
-            }
-            chatSocket.send(JSON.stringify(msg));
-            messageInputDom.value = '';
-        };
-
-        document.querySelector('#start-game').onclick = function(e) {
-                if(user_name == host_name) {
-                    const msg = {
-                        type : 'start_game',
-                        run : 'true',
-                    }
-                    chatSocket.send(JSON.stringify(msg));
-                }
-        }
 
  
+  console.log(questions);
+
+  // Lấy phần tử chứa câu hỏi và câu trả lời
+  const questionRow = document.getElementById("question-row");
+  const answerRow = document.getElementById("answer-row");
+  const scoreElement = document.getElementById('score');
 
 
-        function game_running() {
-            chat_input.classList.add('hidden')
-            chat_submit.classList.add('hidden')
-            chat_log.classList.add('hidden')
-            quiz_container.classList.remove('hidden')
-            user_online.classList.add('hidden')
+  let currentQuestionIndex = 0;
+
+  function renderCurrentQuestion() {
+    const currentQuestionKey = Object.keys(questions_json)[currentQuestionIndex];
+    const currentQuestion = questions_json[currentQuestionKey];
+  
+    // Xóa nội dung cũ trong các hàng câu hỏi và câu trả lời
+    questionRow.innerHTML = "";
+    answerRow.innerHTML = "";
+  
+    // Tạo phần tử câu hỏi
+    const questionElement = document.createElement("div");
+    questionElement.classList.add("col", "question");
+    questionElement.textContent = currentQuestion.question;
+  
+    // Thêm phần tử câu hỏi vào hàng câu hỏi
+    questionRow.appendChild(questionElement);
+  
+    // Tạo phần tử cho mỗi câu trả lời
+    for (let key in currentQuestion.answers) {
+      if (currentQuestion.answers.hasOwnProperty(key)) {
+        const answer = currentQuestion.answers[key];
+        const answerElement = document.createElement("div");
+        answerElement.classList.add("col", "answer", "text-center");
+        answerElement.textContent = answer;
+  
+        // Đặt màu nền cho câu trả lời tương ứng
+        switch (parseInt(key)) {
+          case 0:
+            answerElement.classList.add("bg-primary");
+            break;
+          case 1:
+            answerElement.classList.add("bg-secondary");
+            break;
+          case 2:
+            answerElement.classList.add("bg-success");
+            break;
+          case 3:
+            answerElement.classList.add("bg-danger");
+            break;
+          default:
+            break;
         }
-
-        window.addEventListener('beforeunload', function(event) {
-            const msg = {
-                type : 'leave_room',
+  
+        // Thêm sự kiện click vào câu trả lời
+        answerElement.addEventListener("click", () => {
+          // Kiểm tra đáp án đúng
+          if (parseInt(key) === currentQuestion.correct_answer) {
+            answerElement.classList.add("correct-answer");
+            handleAnswer(true);
+            showFeedback(true);
+          } else {
+            answerElement.classList.add("incorrect-answer");
+            showFeedback(false);
+          }
+  
+          // Chuyển sang câu hỏi tiếp theo sau 1 giây
+          setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < Object.keys(questions_json).length) {
+              renderCurrentQuestion();
+            } else {
+              // Nếu không còn câu hỏi nào, hiển thị thông báo hoặc thực hiện hành động khác
+              questionRow.innerHTML =
+                '<div class="col text-center">Chuc mung ban da hoan thanh phan choi !!!!</div>';
+              answerRow.innerHTML = "";
+              timeLeft = 0;
             }
-            websocket.send(JSON.stringify(msg));
+          }, 500);
+          timeLeft = 30;
         });
+  
+        // Thêm phần tử câu trả lời vào hàng câu trả lời
+        answerRow.appendChild(answerElement);
+      }
+    }
+  }
+  
+
+  // Hàm để hiển thị phản hồi sau khi chọn đáp án
+  function showFeedback(isCorrect) {
+    const feedbackElement = document.createElement("div");
+    feedbackElement.classList.add("col", "text-center", "feedback");
+    feedbackElement.textContent = isCorrect ? "Correct!" : "Incorrect!";
+    questionRow.appendChild(feedbackElement);
+  }
+
+  // Bắt đầu với câu hỏi đầu tiên
+
+  const timerElement = document.getElementById("timer");
+
+  let timeLeft = 30; // Thời gian còn lại ban đầu cho mỗi câu hỏi
+  let timerInterval;
+
+  function startTimer() {
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+    timeLeft = 30; // Reset thời gian còn lại cho câu hỏi tiếp theo
+  }
+
+  function updateTimer() {
+    if (timeLeft > 0) {
+      timeLeft--;
+      timerElement.textContent = `Time left: ${timeLeft} seconds`;
+    } else {
+      clearInterval(timerInterval);
+      timerElement.textContent = "Time's up!";
+      // Gọi hàm để xử lý khi hết giờ
+      handleTimeout();
+    }
+  }
+
+  function handleTimeout() {
+    // Viết mã để xử lý khi hết giờ ở đây, ví dụ: chuyển sang câu hỏi tiếp theo
+    // Chuyển sang câu hỏi tiếp theo sau 1 giây
+    setTimeout(() => {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        renderCurrentQuestion();
+      } else {
+        // Nếu không còn câu hỏi nào, hiển thị thông báo hoặc thực hiện hành động khác
+        questionRow.innerHTML =
+          '<div class="col text-center">All questions have been answered!</div>';
+        answerRow.innerHTML = "";
+        timeLeft = 0;
+      }
+    }, 100);
+    stopTimer();
+  }
+
+  function handleAnswer(isCorrect) {
+    if (isCorrect) {
+        
+        diem_thuong = (timeLeft) * 50  ;
+        showScoreAnimation(diem_thuong); // Hiển thị hiệu ứng cộng điểm
+        score += diem_thuong; // Tăng điểm số khi trả lời đúng
+        scoreElement.textContent = `Score: ${score}`;
         
 
-</script>
+    }
+    
+}
 
+function showScoreAnimation(score) {
+  const animationElement = document.createElement('div');
+  animationElement.classList.add('score-animation');
+  animationElement.textContent = "+"  + score
+  document.body.appendChild(animationElement);
+  
+  setTimeout(() => {
+      animationElement.remove();
+  }, 1000);
+}
+
+
+  renderCurrentQuestion();
+
+  const chat_log = document.getElementById("chat-log");
+  const chat_input = document.getElementById("chat-message-input");
+  const chat_submit = document.getElementById("chat-message-submit");
+  const quiz_container = document.querySelector("#question-container");
+  const user_count = document.getElementById("user-count");
+  const user_online = document.getElementById("user-online");
+  let = crrIndex = 0;
+
+  console.log(host_name);
+  const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/game/" + roomCode + "/"
+  );
+
+  chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    console.log(data);
+
+    console.log(data.count);
+    document.querySelector("#user-count").innerHTML = data.count;
+
+    switch (data.type) {
+      case "chat_message":
+        if (data.message != "") {
+          chat_log.innerHTML =
+            chat_log.value + data.user_name + " : " + data.message + "\n";
+        }
+      case "number_user_message":
+        user_count.innerHTML = data.count;
+      case "start_game_message":
+        if (data.run == "true") {
+          game_running();
+        }
+      case "leave_room_message":
+    }
+  };
+
+  chatSocket.onclose = function (e) {
+    console.error("Chat socket closed unexpectedly");
+  };
+
+  document.querySelector("#chat-message-input").focus();
+  document.querySelector("#chat-message-input").onkeyup = function (e) {
+    if (e.key === "Enter") {
+      // enter, return
+      document.querySelector("#chat-message-submit").click();
+    }
+  };
+
+  chatSocket.onopen = function (event) {};
+
+  document.querySelector("#chat-message-submit").onclick = function (e) {
+    const messageInputDom = document.querySelector("#chat-message-input");
+    const message = messageInputDom.value;
+    const msg = {
+      type: "chat",
+      text: message,
+    };
+    chatSocket.send(JSON.stringify(msg));
+    messageInputDom.value = "";
+  };
+
+  document.querySelector("#start-game").onclick = function (e) {
+    if (user_name == host_name) {
+      const msg = {
+        type: "start_game",
+        run: "true",
+      };
+      chatSocket.send(JSON.stringify(msg));
+    }
+  };
+
+  function game_running() {
+    chat_input.classList.add("hidden");
+    chat_submit.classList.add("hidden");
+    chat_log.classList.add("hidden");
+    quiz_container.classList.remove("hidden");
+    user_online.classList.add("hidden");
+    startTimer();
+  }
+
+  window.addEventListener("beforeunload", function (event) {
+    const msg = {
+      type: "leave_room",
+    };
+    websocket.send(JSON.stringify(msg));
+  });
+</script>
 
 {% endblock%}

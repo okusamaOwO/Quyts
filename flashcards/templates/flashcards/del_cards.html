@@ -1,47 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "learners/base_flashcards.html" %}
+{% load static %}
+{% block del_cards %}
+    <link rel="stylesheet" href="{% static 'learners/del_cards.css' %}">
+    <div class="common-heading">Delete Card</div>
+    <form class="del-card-form" action="{% url 'flashcards:delCard' %}" method="post">
+        {% csrf_token %}
+        {% if error_message %}<p class="error-message"><strong>{{ error_message }}</strong></p>{% endif %}
+        {% if inform_message %}<p class="inform-message"><strong>{{ inform_message }}</strong></p>{% endif %}
 
-<head>
-    <title>Flashcards</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-</head>
+        <label class="del-card-label" for="tagName">Flashcard Set:</label>
+        <select class="del-card-select" id="tagName" name="tagName">
+            <option value=""></option>
+            {% for tag in tags %}
+                <option value="{{ tag }}">{{ tag.name }} - {{ tag.subject }}</option>
+            {% endfor %}
+        </select><br><br>
 
-<body>
-    <header>
-        <h1>Flashcards App</h1>
-    </header>
-    <main>
-        <nav>
-            <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
-            <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
-            <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
-            <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
-            <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
-        </nav>
-        <hr>
-        <h3>Delete a Card:</h3>
-        <form action="{% url 'flashcards:delCard' %}" method="post">
-            {% csrf_token %}
-            {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
-            {% if inform_message %}<p style="color:green"><strong>{{ inform_message }}</strong></p>{% endif %}
+        <label class="del-card-label" for="question">Question:</label>
+        <textarea class="del-card-textarea" id="question" name="question" rows="4" cols="50"></textarea><br><br>
 
-            <label for="tagName">Subject: </label>
-            <select id="tagName" name="tagName" style="height:50px; width:200px">
-                <option value=""></option>
-                {% for tag in tags %}
-                    <option value="{{ tag }}">{{ tag.name }} - {{ tag.subject }}</option>
-                {% endfor %}
-            </select><br><br>
+        <label class="del-card-label" for="answer">Answer:</label>
+        <textarea class="del-card-textarea" id="answer" name="answer" rows="4" cols="50"></textarea><br><br>
 
-            <label for="question">Question: </label>
-            <textarea id="question" name="question" rows="4" cols="50"></textarea><br><br>
-
-            <label for="answer">Answer: </label>
-            <textarea id="answer" name="answer" rows="4" cols="50"></textarea><br><br>
-
-            <input type="submit" value="Delete">
-        </form>
-    </main>
-</body>
-
-</html>
+        <input class="del-card-submit" type="submit" value="Delete">
+    </form>
+{% endblock %}

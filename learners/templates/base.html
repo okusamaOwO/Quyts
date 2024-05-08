@@ -43,9 +43,11 @@
           display: none;
       }
 
+      .question {
+        font-size: 70px;
+      }
 
-
-      .col {
+      .answer {
         background-color: rgba(0, 0, 0, 0.4); /* Màu nền với độ trong suốt là 0.7 */
         padding: 70px;
         border-radius: 30px;
@@ -56,9 +58,48 @@
         cursor: pointer;
       }
 
-      .col:hover {
+      .answer:hover {
         background-color: rgba(0, 0, 0, 1); /* Khi hover, đặt độ trong suốt về 1 */
         transform: scale(1.05,1.05);
+      }
+
+      .correct-answer {
+        background-color: green;
+      }
+      
+      .incorrect-answer {
+        background-color: red;
+      }
+      
+      .feedback {
+        font-weight: bold;
+        margin-top: 10px;
+        font-size: 100px;
+      }
+
+      @keyframes scoreAnimation {
+        0% { transform: translateY(-20px); opacity: 1; }
+        50% { transform: translateY(-50px); opacity: 0.5; }
+        100% { transform: translateY(-80px); opacity: 0; }
+      }
+      
+      .score-animation {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: green;
+        font-size: 24px;
+        font-weight: bold;
+        animation: scoreAnimation 1s ease-out forwards;
+      }
+      #user-online{
+        font-size: 50px;
+        font-weight: bold;
+        margin: auto auto;
+        position: relative;
+        margin-left: 37%;
+
       }
 
 

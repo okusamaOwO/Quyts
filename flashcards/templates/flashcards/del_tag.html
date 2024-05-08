@@ -1,41 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "learners/base_flashcards.html" %}
+{% load static %}
+{% block del_tag %}
+    <link rel="stylesheet" href="{% static 'learners/del_tag.css' %}">
+    <div class="common-heading">Delete a Flashcard Set</div>
+    <form class="del-tag-form" action="{% url 'flashcards:delTag' %}" method="post">
+        {% csrf_token %}
+        {% if error_message %}<p class="error-message"><strong>{{ error_message }}</strong></p>{% endif %}
+        {% if inform_message %}<p class="inform-message"><strong>{{ inform_message }}</strong></p>{% endif %}
 
-<head>
-    <title>Flashcards</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-</head>
+        <label class="del-tag-label" for="tagName">Flashcard Set:</label>
+        <select class="del-tag-select" id="tagName" name="tagName">
+            <option value=""></option>
+            {% for tag in tags %}
+                <option value="{{ tag }}">{{ tag.name }} - {{ tag.subject }}</option>
+            {% endfor %}
+        </select><br><br>
 
-<body>
-    <header>
-        <h1>Flashcards App</h1>
-    </header>
-    <main>
-        <nav>
-            <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
-            <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
-            <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
-            <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
-            <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
-        </nav>
-        <hr>
-        <h3>Delete a Flashcard Set:</h3>
-        <form action="{% url 'flashcards:delTag' %}" method="post">
-            {% csrf_token %}
-            {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
-            {% if inform_message %}<p style="color:green"><strong>{{ inform_message }}</strong></p>{% endif %}
-
-            <label for="tagName">Subject: </label>
-            <select id="tagName" name="tagName" style="height:50px; width:200px">
-                <option value=""></option>
-                {% for tag in tags %}
-                    <option value="{{ tag }}">{{ tag.name }} - {{ tag.subject }}</option>
-                {% endfor %}
-            </select><br><br>
-
-            <input type="submit" value="Delete">
-        </form>
-    </main>
-</body>
-
-</html>
+        <input class="del-tag-submit" type="submit" value="Delete">
+    </form>
+{% endblock %}

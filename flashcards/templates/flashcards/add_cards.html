@@ -1,45 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "learners/base_flashcards.html" %}
+{% load static %}
+{% block subject_list %}
+    <link rel="stylesheet" href="{% static 'learners/add_cards.css' %}">
+    <div class="common-heading">
+        Add card
+    </div>
+    <form class="add-card-form" action="{% url 'flashcards:addCard' %}" method="post">
+        {% csrf_token %}
+        {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
+        {% if inform_message %}<p style="color:green"><strong>{{ inform_message }}</strong></p>{% endif %}
 
-<head>
-    <title>Flashcards</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-</head>
-<body>
-    <header>
-        <h1>Flashcards App</h1>
-    </header>
-    <main>
-        <nav>
-            <a href="{% url 'flashcards:topic' %}" style="margin-right: 40px;">Home</a>
-            <a href="{% url 'flashcards:addTag' %}" style="margin-right: 40px;">Add a new set</a>
-            <a href="{% url 'flashcards:addCard' %}" style="margin-right: 40px;">Add a new card</a>
-            <a href="{% url 'flashcards:delTag' %}" style="margin-right: 40px;">Delete a set</a>
-            <a href="{% url 'flashcards:delCard' %}" style="margin-right: 40px;">Delete a card</a>
-        </nav>
-        <hr>
-        <h3>Add a new Card:</h3>
-        <form action="{% url 'flashcards:addCard' %}" method="post">
-            {% csrf_token %}
-            {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
-            {% if inform_message %}<p style="color:green"><strong>{{ inform_message }}</strong></p>{% endif %}
+        <label class="add-card-label" for="tagName">Flashcard set: </label>
+        <select class="add-card-select" id="tagName" name="tagName">
+            {% for tag in tags %}
+                <option value="{{ tag }}">{{ tag.name }} - {{ tag.subject }}</option>
+            {% endfor %}
+        </select><br><br>
 
-            <label for="tagName">Flashcard set: </label>
-            <select id="tagName" name="tagName" style="height:50px; width:200px">
-                {% for tag in tags %}
-                    <option value="{{ tag }}">{{ tag.name }} - {{ tag.subject }}</option>
-                {% endfor %}
-            </select><br><br>
+        <label class="add-card-label" for="question">Question: </label>
+        <textarea class="add-card-textarea" id="question" name="question" rows="4" cols="50"></textarea><br><br>
 
-            <label for="question">Question: </label>
-            <textarea id="question" name="question" rows="4" cols="50"></textarea><br><br>
+        <label class="add-card-label" for="answer">Answer: </label>
+        <textarea class="add-card-textarea" id="answer" name="answer" rows="4" cols="50"></textarea><br><br>
 
-            <label for="answer">Answer: </label>
-            <textarea id="answer" name="answer" rows="4" cols="50"></textarea><br><br>
-
-            <input type="submit" value="Submit">
-        </form>
-    </main>
-</body>
-
-</html>
+        <input class="add-card-submit" type="submit" value="Submit">
+    </form>
+{% endblock %}

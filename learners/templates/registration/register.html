@@ -1,28 +1,30 @@
-<!-- register.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
+
+    <link rel="stylesheet" href={% static 'learners/register.css' %}>
 </head>
 <body>
-    <h1>User Registration</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <div class="container">
+        <h1>User Registration</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            {{ message }}
-            {% endfor %}
-        </ul>
-        {% endif %}
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
 
-        <button type="submit">Register</button>
-    </form>
-
-    
+            <button type="submit">Register</button>
+        </form>
+    </div>
 </body>
 </html>
