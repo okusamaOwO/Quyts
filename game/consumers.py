@@ -77,6 +77,10 @@ class RoomConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
             self.room_group_name, {"type": "leave_room_message",}
             )
+        elif text_data_dict["type"] == 'user_score':
+            await self.channel_layer.group_send(
+            self.room_group_name, {"type": "user_score_message", 'score' : text_data_dict["user_scrore"] , 'user_name' : text_data_dict["user_name"]}
+            )
             
 
 
@@ -113,3 +117,8 @@ class RoomConsumer(AsyncWebsocketConsumer):
     async def leave_room_message(self, event): 
         RoomConsumer.online_users -= 1
         await self.send(text_data=json.dumps({"type" : "number_user_message" , "count" : RoomConsumer.online_users}) )
+        
+    async def user_score_message(self, event): 
+        score = event["score"]
+        user_name = event["user_name"]
+        await self.send(text_data=json.dumps({"type" : event["type"] , "score" :score, 'user_name' : user_name }) )

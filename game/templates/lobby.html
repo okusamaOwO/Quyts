@@ -1,23 +1,42 @@
 {% include "base.html" %} {% load static %} {% block content %}
 
-<p id="user-online">So nguoi trong phong: <span id="user-count"></span></p>
-<br />
+<div class="hidden"></div>
+<div class="container">
+  <p id="user-online">People : <span id="user-count"></span></p>
+  <br />
 
-<textarea id="chat-log" cols="50" rows="10"></textarea><br />
-<input id="chat-message-input" type="text" size="50" /><br />
-<input id="chat-message-submit" type="button" value="Send" />
+  <textarea id="chat-log" class="form-control mb-3" cols="50" rows="10"></textarea>
+  <input id="chat-message-input" class="form-control mb-3" type="text" size="50" />
+  <button id="chat-message-submit" class="btn btn-primary mb-3">Send</button>
 
-<hr />
+  <hr />
 
-<button id="start-game">start game</button>
+  <button id="start-game" class="btn btn-success">Start Game</button>
 
-<hr />
 
-<div id="question-container" class="container hidden">
-  <div id="timer" class="text-center mb-3"></div>
-  <div id="score" class="text-center mb-3">Score: 0</div>
-  <div class="row" id="question-row"></div>
-  <div class="row row-cols-2" id="answer-row"></div>
+
+  <div id="question-container" class="container hidden">
+    <div id="timer" class="text-center mb-3"></div>
+    <div id="score" class="text-center mb-3">Score: 0</div>
+    <div class="row" id="question-row"></div>
+    <div class="row row-cols-2" id="answer-row"></div>
+  </div>
+</div>
+
+<div class="rank-container">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+     
+  
+    </tbody>
+  </table>
 </div>
 
 <script>
@@ -33,17 +52,32 @@
 let score= 0;
 
 
-
- 
   console.log(questions);
 
   // Lấy phần tử chứa câu hỏi và câu trả lời
   const questionRow = document.getElementById("question-row");
   const answerRow = document.getElementById("answer-row");
   const scoreElement = document.getElementById('score');
+  const chat_log = document.getElementById("chat-log");
+  const chat_input = document.getElementById("chat-message-input");
+  const chat_submit = document.getElementById("chat-message-submit");
+  const quiz_container = document.querySelector("#question-container");
+  const user_count = document.getElementById("user-count");
+  const user_online = document.getElementById("user-online");
+  const btn_start_game = document.getElementById("start-game");
+  const timerElement = document.getElementById("timer");
 
+
+  if(user_name != host_name) {
+    btn_start_game.classList.add('hidden')
+  }
+ 
+  function adminFunction( excute  ) {
+    if(user_name == host_name) excute()
+  }
 
   let currentQuestionIndex = 0;
+  var users ={} ;
 
   function renderCurrentQuestion() {
     const currentQuestionKey = Object.keys(questions_json)[currentQuestionIndex];
@@ -72,16 +106,16 @@ let score= 0;
         // Đặt màu nền cho câu trả lời tương ứng
         switch (parseInt(key)) {
           case 0:
-            answerElement.classList.add("bg-primary");
+            answerElement.classList.add("asw1");
             break;
           case 1:
-            answerElement.classList.add("bg-secondary");
+            answerElement.classList.add("asw2");
             break;
           case 2:
-            answerElement.classList.add("bg-success");
+            answerElement.classList.add("asw3");
             break;
           case 3:
-            answerElement.classList.add("bg-danger");
+            answerElement.classList.add("asw4");
             break;
           default:
             break;
@@ -89,10 +123,18 @@ let score= 0;
   
         // Thêm sự kiện click vào câu trả lời
         answerElement.addEventListener("click", () => {
+
+
           // Kiểm tra đáp án đúng
           if (parseInt(key) === currentQuestion.correct_answer) {
             answerElement.classList.add("correct-answer");
             handleAnswer(true);
+            const msg = {
+              type: "user_score",
+              user_scrore: score ,
+              user_name : user_name,
+            };
+            chatSocket.send(JSON.stringify(msg))
             showFeedback(true);
           } else {
             answerElement.classList.add("incorrect-answer");
@@ -104,6 +146,7 @@ let score= 0;
             currentQuestionIndex++;
             if (currentQuestionIndex < Object.keys(questions_json).length) {
               renderCurrentQuestion();
+              timeLeft = 30; 
             } else {
               // Nếu không còn câu hỏi nào, hiển thị thông báo hoặc thực hiện hành động khác
               questionRow.innerHTML =
@@ -132,7 +175,7 @@ let score= 0;
 
   // Bắt đầu với câu hỏi đầu tiên
 
-  const timerElement = document.getElementById("timer");
+
 
   let timeLeft = 30; // Thời gian còn lại ban đầu cho mỗi câu hỏi
   let timerInterval;
@@ -203,12 +246,7 @@ function showScoreAnimation(score) {
 
   renderCurrentQuestion();
 
-  const chat_log = document.getElementById("chat-log");
-  const chat_input = document.getElementById("chat-message-input");
-  const chat_submit = document.getElementById("chat-message-submit");
-  const quiz_container = document.querySelector("#question-container");
-  const user_count = document.getElementById("user-count");
-  const user_online = document.getElementById("user-online");
+
   let = crrIndex = 0;
 
   console.log(host_name);
@@ -216,26 +254,62 @@ function showScoreAnimation(score) {
     "ws://" + window.location.host + "/game/" + roomCode + "/"
   );
 
+
+
   chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    console.log(data);
 
-    console.log(data.count);
-    document.querySelector("#user-count").innerHTML = data.count;
-
+    try {
+      document.querySelector("#user-count").innerHTML = data.count
+    }
+    catch(err) {
+        user_online.classList.add('hidden');
+    }
+   
     switch (data.type) {
       case "chat_message":
         if (data.message != "") {
           chat_log.innerHTML =
             chat_log.value + data.user_name + " : " + data.message + "\n";
         }
+      break;
       case "number_user_message":
         user_count.innerHTML = data.count;
+        break;
       case "start_game_message":
         if (data.run == "true") {
           game_running();
         }
-      case "leave_room_message":
+      break;
+      case "user_score_message": 
+        users[data.user_name] = data.score
+        adminFunction(excute = function() {
+          users = Object.fromEntries(
+      Object.entries(users).sort(([,a],[,b]) => a- b)
+);
+          const table = document.querySelector('tbody');
+          table.innerHTML = ''
+          for (const user_name in users) {
+            if (users.hasOwnProperty(user_name)) {
+              const score = users[user_name];
+          const newRow = document.createElement('tr');
+          const user_cell = document.createElement('td');
+          user_cell.innerHTML = user_name
+          const score_cell = document.createElement('td');
+          score_cell.innerHTML = score;
+          newRow.appendChild(user_cell);
+          newRow.appendChild(score_cell);
+          
+    // Lấy thẻ table và gắn hàng mới vào cuối bảng
+       
+        table.appendChild(newRow);
+            }
+            
+        }
+
+        })
+        break;
+
     }
   };
 
@@ -275,12 +349,20 @@ function showScoreAnimation(score) {
   };
 
   function game_running() {
+
+   if(user_name!= host_name){
     chat_input.classList.add("hidden");
     chat_submit.classList.add("hidden");
     chat_log.classList.add("hidden");
     quiz_container.classList.remove("hidden");
     user_online.classList.add("hidden");
     startTimer();
+    btn_start_game.classList.add("hidden")
+   }
+   else{
+
+   }
+    
   }
 
   window.addEventListener("beforeunload", function (event) {
@@ -291,4 +373,6 @@ function showScoreAnimation(score) {
   });
 </script>
 
-{% endblock%}
+
+<script>
+{% endblock %}
