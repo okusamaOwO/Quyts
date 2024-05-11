@@ -1,0 +1,80 @@
+@import url('https://fonts.cdnfonts.com/css/be-vietnam-pro');
+
+.flashcard-container {
+    
+    margin: 80px auto 0 auto;
+    width: 80%;
+    background-color: #FFE7D4;
+    border-radius: 10px;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    font-family: 'Be VietNam Pro', cursive;
+
+}
+
+.flashcard-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.common-heading {
+    font-weight: 700;
+    font-size: 40px;
+    color: #DE8556;
+}
+
+.flashcard-info {
+    font-weight: 600;
+    color: #190B28;
+}
+
+.flashcard-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.flashcard-button {
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 700;
+    font-size: 36px; /* Increased font size */
+    color: #190B28;
+    background-color: #fff;
+    height: 300px;
+    width: 50%;
+    border: 4px solid #DE8556; /* Increased border width */
+    border-radius: 20px; /* Increased border radius */
+ /* Increased padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.flashcard-button:hover {
+    background-color: #DE8556;
+    color: #fff;
+}
+
+.flashcard-nav-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.nav-button {
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 700;
+    font-size: 16px;
+    color: #DE8556;
+    background-color: #fff;
+    border: 2px solid #DE8556;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #DE8556;
+    color: #fff;
+}

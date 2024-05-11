@@ -2,7 +2,7 @@
 {% load static %}
 {% block subject_list %}
     <link rel="stylesheet" href="{% static 'learners/add_cards.css' %}">
-    <div class="common-heading">Add Tag</div>
+    <div class="common-heading">Add Set</div>
     <form class="add-card-form" action="{% url 'flashcards:addTag' %}" method="post">
         {% csrf_token %}
         {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
