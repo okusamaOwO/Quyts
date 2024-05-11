@@ -3,13 +3,15 @@
 {% block tag_list %}
     <link rel="stylesheet" href="{% static 'learners/tag_list.css' %}">
     <div class="tag-list-container">
-        <h3>{{ Subject }}:</h3>
+        <h3 class="common-heading">{{ Subject }}</h3>
         {% if tags %}
-            <p>Choose a set:</p>
+            <div>Choose a set:</div>
             <ul class="tag-list">
                 {% for tag in tags %}
                     <li>
-                        <a href="{% url 'flashcards:cardList' subject=Subject tagname=tag.name %}" class="tag-option">{{ tag.name }}</a>
+                        <a href="{% url 'flashcards:cardList' subject=Subject tagname=tag.name %}" class="tag-box">
+                            {{ tag.name }}
+                        </a>
                     </li>
                 {% endfor %}
             </ul>

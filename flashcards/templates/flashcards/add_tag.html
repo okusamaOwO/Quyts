@@ -1,7 +1,7 @@
 {% extends "learners/base_flashcards.html" %}
 {% load static %}
-{% block subject_list %}
-    <link rel="stylesheet" href="{% static 'learners/add_cards.css' %}">
+{% block add_tag %}
+    <link rel="stylesheet" href="{% static 'learners/add_tag.css' %}">
     <div class="common-heading">Add Set</div>
     <form class="add-card-form" action="{% url 'flashcards:addTag' %}" method="post">
         {% csrf_token %}
