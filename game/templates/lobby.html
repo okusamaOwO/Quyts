@@ -259,12 +259,6 @@ function showScoreAnimation(score) {
   chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
 
-    try {
-      document.querySelector("#user-count").innerHTML = data.count
-    }
-    catch(err) {
-        user_online.classList.add('hidden');
-    }
    
     switch (data.type) {
       case "chat_message":
@@ -274,7 +268,7 @@ function showScoreAnimation(score) {
         }
       break;
       case "number_user_message":
-        user_count.innerHTML = data.count;
+        if(data.count != NaN)user_count.innerHTML = data.count;
         break;
       case "start_game_message":
         if (data.run == "true") {
@@ -285,7 +279,7 @@ function showScoreAnimation(score) {
         users[data.user_name] = data.score
         adminFunction(excute = function() {
           users = Object.fromEntries(
-      Object.entries(users).sort(([,a],[,b]) => a- b)
+      Object.entries(users).sort(([,a],[,b]) => b-a)
 );
           const table = document.querySelector('tbody');
           table.innerHTML = ''
