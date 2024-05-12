@@ -1,22 +1,20 @@
 {% extends "learners/base_flashcards.html" %}
 {% load static %}
-{% block del_tag_ %}
-    <link rel="stylesheet" href="{% static 'learners/tag_list.css' %}">
 {% block tag_list %}
-            <h3>{{ Subject }}: </h3>
-            {% if tags %}
-                <p>&ensp;Choose a set:</p>
-                <ul>
-                    {% for tag in tags %}
-                        <li>
-                            <a href="{% url 'flashcards:cardList' subject=Subject tagname=tag.name %}">{{ tag.name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endblock tag_list %}
-        {% endblock %}
-    </main>
-</body>
-
-
+    <link rel="stylesheet" href="{% static 'learners/tag_list.css' %}">
+    <div class="tag-list-container">
+        <h3 class="common-heading">{{ Subject }}</h3>
+        {% if tags %}
+            <div>Choose a set:</div>
+            <ul class="tag-list">
+                {% for tag in tags %}
+                    <li>
+                        <a href="{% url 'flashcards:cardList' subject=Subject tagname=tag.name %}" class="tag-box">
+                            {{ tag.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
