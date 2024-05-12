@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 from .forms import RoomForm
 from django.contrib.auth.decorators import login_required
+from json import dumps 
+from .helpers import convert_questions_to_json
 
 def game(request):
     rooms = Room.objects.all()
@@ -20,16 +22,19 @@ def room(request, room_code):
     session= request.session
     
     
-    user = request.user
+    user_name = request.user.username
     quiz_id = room.quiz_id
+    host_name = room.host.username
     questions = Question.objects.filter(quiz = quiz_id)
-
+    questions_json = convert_questions_to_json(questions)
     context = {
         'room':room,
         'room_code':room_code,
-        'user': user,
+        'user_name': user_name,
         'session' : session,
         'questions':questions,
+        'host_name' : host_name,
+        'questions_json' : questions_json,
         
     }
     return render(request, 'lobby.html', context)

@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -75,6 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Quyts.wsgi.application'
+ASGI_APPLICATION = 'Quyts.asgi.application'
 
 ASGI_APPLICATION = 'Quyts.asgi.application'
 
@@ -84,6 +84,16 @@ CHANNEL_LAYERS = {
     }
 }
 
+import os
+REDIS_HOST= "redis-13190.c239.us-east-1-2.ec2.cloud.redislabs.com"
+REDIS_PORT= "13190"
+REDIS_PASSWORD = "m5sCG6jrhrXuDz0lR7WWBlj3RrSzaekp"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -133,7 +143,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR /'learners/static/']
+STATICFILES_DIRS = [BASE_DIR /'learners/static/', BASE_DIR /'game/static/' ]
 STATIC_ROOT = BASE_DIR / 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

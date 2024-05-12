@@ -27,6 +27,16 @@ def register(request):
 
 
 def index(request):
+       # Kiểm tra xem người dùng đã đăng nhập hay chưa
+    if request.user.is_authenticated:
+        # In ra session key của người dùng (session key là một cách duy nhất để xác định session của một người dùng cụ thể)
+        print("Session key:", request.session.session_key)
+        
+        # Lấy thông tin từ session của người dùng
+        my_data = request.session.get('my_data_key', 'default_value')
+        print("My data from session:", my_data)
+    else:
+        print("User is not authenticated")
     return render(request, 'learners/index.html')
 
 def registration_success(request):
@@ -43,4 +53,3 @@ def login(request):
         else:
             messages.error(request, 'Invalid username or password')
     return render(request, 'learners/login.html')
-    
