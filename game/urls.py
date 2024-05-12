@@ -6,4 +6,4 @@ urlpatterns = [
     path('', views.game, name = 'game'),
     path('<str:room_code>/',views.room, name= 'rooms'),
     path('room/create_room/',views.create_room, name = 'create-room')
-]
+]   
