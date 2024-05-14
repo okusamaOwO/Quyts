@@ -10,5 +10,5 @@ urlpatterns = [
     path('room/', views.wait_room, name = 'rooms')
 ]
 
-]   
+
 
