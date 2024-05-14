@@ -55,10 +55,11 @@
   color: white;
   font-weight: bold;
   margin-right: 15px;
+  scale: 0.9;
 }
 .link:hover{
 
- scale: 0.9;
+ scale: 0.8;
  cursor: pointer;
 }
 
@@ -71,7 +72,7 @@
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
      
     </head>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary " >
+    <nav class="navbar navbar-expand-lg navbar-dark  " style="background-color: orange;" >
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Quyts</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,15 +81,15 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="% url 'learners:index' %" style="color: white;">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'game' %}">Game</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'game' %}" style="color: white;">Game</a>
               </li>
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit" style="margin-right: 10px;">Search</button>
+              <button class="btn btn-outline-success" type="submit" style="margin-right: 10px;background-color :orange; " >Search</button>
             </form>
           </div>
           <div>
