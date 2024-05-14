@@ -9,3 +9,6 @@ urlpatterns = [
     path('quiz/create_quiz/', views.create_quiz, name = 'create-quiz'),
     path('room/', views.wait_room, name = 'rooms')
 ]
+
+]   
+
