@@ -16,14 +16,19 @@
         <div class="comment-box">
             <p class="comment-text">{{ post.post_content }}</p>
         </div>
-        <p class="like-dislike">Like: {{ post.post_like }}      Dislike: {{ post.post_dislike }}</p>
-        <form method="post">
-            {% csrf_token %}
-            <div class="vote-form">
-                {{ vote_form.as_ul}}
-                <button class="smaller-button" type="submit">Vote</button>
-            </div>
-        </form>
+        <div  class="d-flex justify-content-start">
+            <button class="btn btn-primary d-flex align-items-center like">
+                <span class = "like-content"style="margin-right : 4px;">{{post.post_like}}</span>
+                <i class="fa-solid fa-thumbs-up mr-2"></i>
+            </button>
+            <button class="btn btn-primary d-flex align-items-center dislike">
+                <span class = "dislike-content" style="margin-right : 4px;">{{post.post_dislike}}</span>
+                <i class="fa-solid fa-thumbs-down mr-2"></i>
+               
+            </button>
+        </div>
+     
+
         <form method="post">
         <div class="vote-form">
             {% csrf_token %}
@@ -39,5 +44,75 @@
             {% endfor %}
         </div>
     </div>
+
+    <script>
+
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+
+
+
+ 
+
+        $(".like").click(function(){
+
+            like = $(".like-content").val(); 
+            $.ajax({
+                url: window.location,
+                type: "POST",
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    type : "like"
+                })  ,
+                success: function(response) {
+                    location.reload()
+                },
+                error: function(xhr, status, error) {
+                    alert(error)
+                }
+            });
+        })  
+
+        
+        $(".dislike").click(function(){
+
+            like = $(".dislike-content").val(); 
+            $.ajax({
+                url: window.location,
+                type: "POST",
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    type : "dislike"
+                })  ,
+                success: function(response) {
+                    location.reload()
+                },
+                error: function(xhr, status, error) {
+                    alert(error)
+                }
+            });
+        })  
+
+    </script>
 {% endblock %}
 

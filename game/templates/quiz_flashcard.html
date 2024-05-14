@@ -1,0 +1,88 @@
+{% load static %}
+
+{% include "base.html" %}
+<body style="background-color : rgb(210, 221, 128);">
+{% block content %}
+<h2>Choose tag flashcards</h2>
+<div class="container mt-5">
+    <h1 class="mb-4">Create Flashcard Quiz </h1>
+    <form id="quiz-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Quiz Title:</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+
+        <label for="">Choose Tag</label>
+        <select>
+
+            {% for tag in tags%} 
+             <option value="{{tag.name}}">{{tag.name}}</option>
+            {% endfor %}
+         </select>
+        
+         <br>
+        <button type="button" class="btn btn-success create-quiz-btn">Create Quiz</button>
+    </form>
+
+
+</div>
+
+
+
+{% endblock %}
+
+
+<script>
+
+    $(".create-quiz-btn").click(function() {
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+
+        data_to_send = {
+
+            type : "flashcard_quiz",
+            quiz_title : $("#title").val(),
+            quiz_description : $("#description").val(),
+            tag_name : $("option").val(),
+        }
+         $.ajax({
+                url: "{% url 'quiz-flashcard' %}",
+                type: "POST",
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin',
+                contentType: "application/json",
+                data: JSON.stringify(data_to_send) ,
+                success: function(response) {
+                    alert("Thành công! Bài kiểm tra đã được tạo.");
+                    location.reload()
+                },
+                error: function(xhr, status, error) {
+                    alert(error)
+                }
+            });
+
+    })
+
+    
+</script>
+</body>

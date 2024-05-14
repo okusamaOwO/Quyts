@@ -1,9 +1,10 @@
+import json
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
 from django.db.models import F
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.template import loader
 from .form import CommentForm, PostForm, VoteForm
 from django.urls import reverse
@@ -53,19 +54,20 @@ def postView(request, pk):
                     return redirect(reverse("forum:post_detail", args=[pk]))
                 except IntegrityError:
                     messages.error(request, 'Comment error')
-            elif vote_form.is_valid():
-                try:
-                    vote = vote_form.cleaned_data['vote']
-                    if vote == 'like':
-                        post.post_like = post.post_like + 1
-                        post.save()
-                    if vote == 'dislike':
-                        post.post_dislike = post.post_dislike + 1
-                        post.save()
-                        print(post.post_dislike)
-                    return redirect(reverse("forum:post_detail", args=[pk]))
-                except IntegrityError:
-                    messages.error(request, 'Vote error')
+
+                
+            data = json.loads(request.body)
+            
+            if(data["type"] == 'like' ) :
+                post.post_like = post.post_like +1
+                post.save()
+                return JsonResponse({'oke' : "oke"})
+            if(data["type"] == 'dislike' ) :
+                post.post_dislike = post.post_dislike +1
+                post.save()
+                return JsonResponse({'oke' : "oke"})
+            
+            
         else:
             comment_form = CommentForm()
             vote_form = VoteForm()
