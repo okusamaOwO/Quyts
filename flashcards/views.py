@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def topic(request):
-    learner = Learner.objects.get(username=request.user)
     return render(request, "flashcards/subject_list.html")
 
 
