@@ -9,7 +9,7 @@ from learners.contextprocessers import get_user
 
 class Quiz(models.Model):
     title = models.CharField(max_length=100, default="")
-    description = models.TextField(max_length=100, default="")
+    description = models.CharField(max_length=100, default="")
     author = models.ForeignKey(Learner, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
@@ -44,7 +44,6 @@ class Room(models.Model):
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
-    title = models.TextField(max_length=100, default="")
     text = models.TextField(max_length=100, default="")
     answer1 = models.CharField(max_length=100, default='')
     answer2 = models.CharField(max_length=100, default='')

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Create Quiz</h1>
+    <form id="quiz-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Quiz Title:</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="number-of-questions">Enter number of questions:</label>
+            <input type="number" class="form-control" id="number-of-questions" max="100">
+        </div>
+        <button type="button" class="btn btn-primary add-new-question mb-3">Add questions</button>
+        
+        <div class="questions-form-container"></div>
+        
+        <button type="button" class="btn btn-success create-quiz-btn">Create Quiz</button>
+    </form>
+</div>
+
+<script>
+    var number_of_question = 0;
+    document.getElementById("number-of-questions").addEventListener("input", function() {
+        var value = parseInt(this.value);
+        if (value > 100) {
+            this.value = 100;
+        }
+        if (value < 0) {
+            this.value = 0;
+        }
+    });
+
+    function addQuestion(number_question) {
+        $('.questions-form-container').empty()
+        number_of_question = 0;
+        for (let i = 0; i < number_question; i++) {
+            let newQuestionField = `
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>Question ${i+1}</h2>
+                </div>
+                <div class="card-body">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="text">Text:</label>
+                        <textarea id="text_question${i+1}" name="text" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description_question${i+1}" name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="answer1">Answer 1:</label>
+                        <input type="text" id="answer1_question${i+1}" name="answer1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="answer2">Answer 2:</label>
+                        <input type="text" id="answer2_question${i+1}" name="answer2" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="answer3">Answer 3:</label>
+                        <input type="text" id="answer3_question${i+1}" name="answer3" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="answer4">Answer 4:</label>
+                        <input type="text" id="answer4_question${i+1}" name="answer4" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="correct_answer">Correct Answer:</label>
+                        <select id="correct_answer_question${i+1}" name="correct_answer" class="form-control">
+                            <option value="0">Answer 1</option>
+                            <option value="1">Answer 2</option>
+                            <option value="2">Answer 3</option>
+                            <option value="3">Answer 4</option>
+                        </select>
+                    </div>
+                </div>
+            </div>`;
+            $('.questions-form-container').append(newQuestionField);
+            number_of_question++;
+        }
+    }
+
+    $(".add-new-question").click(function() {
+        addQuestion($("#number-of-questions").val());
+    });
+    $(".create-quiz-btn").click(function() {
+
+        
+        questions = []
+        for(let i = 0 ; i < number_of_question ; i++) {
+
+                question = {
+                    number :i+1,
+
+                    text : $(`#text_question${i+1}`).val(),
+                    answer1 :$(`#answer1_question${i+1}`).val(),
+                    answer2 :$(`#answer2_question${i+1}`).val(),
+                    answer3 :$(`#answer3_question${i+1}`).val(),
+                    answer4 :$(`#answer4_question${i+1}`).val(),
+                    corret_answer : $(`#correct_answer_question${i+1}`).val(),
+                    
+
+                }
+
+                questions.push(question);
+        }
+        let data_to_send = {
+            quiz_title : $("#title").val(),
+            quiz_description : $("#description").val(),
+            questions: questions,
+
+        }
+        console.log(JSON.stringify(data_to_send))
+
+       
+        
+
+
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+
+
+
+            $.ajax({
+                url: "{% url 'create-quiz' %}",
+                type: "POST",
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin',
+                contentType: "application/json",
+                data: JSON.stringify(data_to_send) ,
+                success: function(response) {
+                    alert("Thành công! Bài kiểm tra đã được tạo.");
+                    location.reload()
+                },
+                error: function(xhr, status, error) {
+                    alert(error)
+                }
+            });
+        
+    })
+
+</script>
+
+  
+{% endblock%}   

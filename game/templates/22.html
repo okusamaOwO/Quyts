@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz</title>
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Create Quiz</h1>
+    <form id="quizForm" method="post">
+        {% csrf_token %}
+        <label for="title">Quiz Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"></textarea><br>
+        <label for="questions">Questions:</label><br>
+        <div id="questions">
+            <!-- Questions will be dynamically added here -->
+        </div>
+        <button type="button" id="addQuestion">Add Question</button><br><br>
+        <button type="submit">Create Quiz</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            // Counter to keep track of question number
+            let questionCounter = 0;
+
+            // Function to add a new question field
+            function addQuestionField() {
+                
+                let newQuestionField = `
+                    <div class="question">
+                        <label for="question${questionCounter}">Question ${questionCounter}:</label><br>
+                        <input type="text" id="question${questionCounter}" name="question${questionCounter}"><br>
+                        <!-- Add answer fields here -->
+                    </div>
+                `;
+                $("#questions").append(newQuestionField);
+                questionCounter++;
+            }
+
+            // Add initial question field
+            addQuestionField();
+
+            // Add question when "Add Question" button is clicked
+            $("#addQuestion").click(function() {
+                addQuestionField();
+            });
+
+            // Submit form using AJAX
+            $("#quizForm").submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'create-quiz' %}", // Update with your Django URL
+                    data: $(this).serialize(), // Serialize form data
+                    success: function(response) {
+                        // Handle success response
+                        alert("Quiz created successfully!");
+                        // Optionally redirect or perform other actions
+                    },
+                    error: function(xhr, errmsg, err) {
+                        // Handle error
+                        console.log(xhr.status + ": " + xhr.responseText); // Log error message
+                        // Optionally display error message to the user
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
