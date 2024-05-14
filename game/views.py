@@ -123,8 +123,8 @@ def create_flashcard_quiz(request):
             given a flashcard with 2 sides, the phrase/question (front side) and the meaning/answer (back side).
             the front side is: {0}.
             the back side is: {1}.
-            as to make a multiple-choice question, generate A, B, C and D answers for the back side 
-            (with one of the options is the front side, and without word in the font , 3 answer is false, 1 answer 1 correct, and these answers have the same language).
+            as to make a multiple-choice question, generate A, B, C and D answers for the back font 
+            (with one of the options is the back side, and without word in the font , 3 answer is false, 1 answer 1 correct, and these answers have the same language).
             and correct_answer 
             return only a json format and  format must same above:
             "text" : ...,
