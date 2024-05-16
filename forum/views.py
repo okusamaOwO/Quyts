@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from .models import Post, Comment
+from django.contrib.auth.decorators import login_required
 
 
 def homeView(request):
@@ -38,7 +39,7 @@ def homeView(request):
     }
     return HttpResponse(template.render(output, request))
 
-
+@login_required
 def postView(request, pk):
     try:
         post = Post.objects.get(pk=pk)
@@ -74,6 +75,8 @@ def postView(request, pk):
     except Post.DoesNotExist:
         raise Http404("Not exist")
     return render(request, "forum/post.html", {"post": post, "comment_form": comment_form, "vote_form": vote_form})
+
+@login_required
 @require_POST
 def like_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -81,6 +84,7 @@ def like_post(request, post_id):
     post.save()
     return JsonResponse({'post_like': post.post_like})
 
+@login_required
 @require_POST
 def dislike_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
