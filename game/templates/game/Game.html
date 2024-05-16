@@ -1,0 +1,81 @@
+{% include "game/new_base.html" %}
+{% load static %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+        background-color: #F5F5F5;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Poppins', sans-serif;
+        display: grid;
+        place-items: center;
+        min-height: 90vh;
+        margin: 0;
+    }
+
+    .link-container {
+        width: 1000px;
+        height: 600px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 40px;
+        max-width: 1200px;
+    }
+
+    .link {
+        padding: 32px;
+        border-radius: 16px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .link:hover {
+        transform: translateY(-4px);
+    }
+
+    .room-page {
+        background-color: rgb(0, 153, 255);
+    }
+
+    .quiz-flashcard {
+        background-color: rgb(226, 185, 17);
+    }
+
+    .create-quiz {
+        background-color: rgb(24, 192, 136);
+    }
+
+    .create-room {
+        background-color: rgb(201, 25, 54);
+    }
+</style>
+
+<div class="link-container">
+    <div class="link room-page">Room</div>
+    <div class="link quiz-flashcard">Flashcard Quiz</div>
+    <div class="link create-quiz">Create Quiz</div>
+    <div class="link create-room">Create Room</div>
+</div>
+
+<script>
+    $(".room-page").click(function() {
+        window.location = '{% url "rooms" %}'
+    })
+
+    $(".create-quiz").click(function() {
+        window.location = '{% url "create-quiz" %}'
+    })
+
+    $(".create-room").click(function() {
+        window.location = '{% url "create-room" %}'
+    })
+
+    $(".quiz-flashcard").click(function() {
+        window.location = '{% url "quiz-flashcard" %}'
+    })
+</script>

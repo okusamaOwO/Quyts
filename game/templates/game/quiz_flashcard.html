@@ -1,8 +1,6 @@
+{% include "game/new_base.html" %}
 {% load static %}
-
-{% include "base.html" %}
-<body style="background-color : rgb(210, 221, 128);">
-{% block content %}
+<body>
 <h2>Choose tag flashcards</h2>
 <div class="container mt-5">
     <h1 class="mb-4">Create Flashcard Quiz </h1>
@@ -31,12 +29,6 @@
 
 
 </div>
-
-
-
-{% endblock %}
-
-
 <script>
 
     $(".create-quiz-btn").click(function() {

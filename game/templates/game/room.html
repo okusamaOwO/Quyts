@@ -1,6 +1,5 @@
-{% include "base.html" %}
-
-{% block content %}
+{% include "game/new_base.html" %}
+<body>
 <div class="container">
     <hr>
     <div class="row">
@@ -28,7 +27,6 @@
         </div>
     </div>
 </div>
-
 <script>
     document.querySelector('#room-name-input').focus();
     document.querySelector('#room-name-input').onkeyup = function(e) {
@@ -45,4 +43,5 @@
         window.location.pathname = '/game/room/create_room/';
     }
 </script>
-{% endblock %}
+</body>
+

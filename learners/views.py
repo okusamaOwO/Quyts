@@ -49,7 +49,7 @@ def login(request):
         learner = authenticate(username=username, password=password)
         if learner is not None:
             django_login(request, learner)
-            return redirect('learners:index')
+            return redirect('flashcards:topic')
         else:
             messages.error(request, 'Invalid username or password')
     return render(request, 'learners/login.html')

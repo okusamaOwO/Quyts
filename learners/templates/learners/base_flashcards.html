@@ -15,7 +15,7 @@
             <div class="header">
                 <div class="row">
                     <div class="col">
-                        <a href="#" class="logo">Quýt</a>
+                        <a href="http://127.0.0.1:8000/flashcards" class="logo">Quýt</a>
                         <img class="quyts" src="{% static 'learners/pictures/quyst2.png' %}" style="width: 100px; height: 80px">
                     </div>
                     <div class="col">
@@ -28,11 +28,17 @@
                             </form>
                         </div>
                     </div>
+
                     <div class="col">
                         <nav class="navbar">
-                            <a href="">Flashcard</a>
-                            <a href="">Diễn đàn</a>
+                            <a href="http://127.0.0.1:8000/flashcards/">Flashcard</a>
+                            <a href="http://127.0.0.1:8000/forum/">Diễn đàn</a>
                             <a href="http://127.0.0.1:8000/game/">Trò chơi</a>
+                            {% if user_name %}
+                                  <a class = "navbar">Xin chào, <strong>{{ user_name }}</strong> </a>
+                              {% else %}
+                                  <a class = "navbar">Xin chào, Vui long dang nhap! </a>
+                              {% endif %}
                         </nav>
                     </div>
                 </div>
@@ -67,6 +73,16 @@
 
     {% block tag_list %}
     {% endblock %}
+
+    {% block create_room %}
+    {% endblock %}
+
+    {% block game %}
+    {% endblock %}
+
+    {% block lobby %}
+    {% endblock %}
+
 </body>
 </html>
 

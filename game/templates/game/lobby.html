@@ -1,5 +1,6 @@
-{% include "base.html" %} {% load static %} {% block content %}
-
+{% include "game/new_base.html" %}
+{% load static %}
+<body>
 <div class="hidden"></div>
 <div class="container">
   <p id="user-online">People : <span id="user-count"></span></p>
@@ -370,4 +371,4 @@ function showScoreAnimation(score) {
 
 
 <script>
-{% endblock %}
+</body>

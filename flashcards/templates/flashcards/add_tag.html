@@ -6,7 +6,6 @@
     <form class="add-card-form" action="{% url 'flashcards:addTag' %}" method="post">
         {% csrf_token %}
         {% if error_message %}<p style="color:red"><strong>{{ error_message }}</strong></p>{% endif %}
-
         <label class="add-card-label" for="subject">Subject:</label>
         <select class="add-card-select" id="subject" name="subject">
             {% for subject in subjects %}
@@ -15,8 +14,8 @@
         </select><br><br>
 
         <label class="add-card-label" for="tagName">Name of set:</label>
-        <textarea class="add-card-textarea" id="tagName" name="tagName" rows="4" cols="50"></textarea><br><br>
+        <textarea class="lobby_textarea" id="tagName" name="tagName" rows="4" cols="50"></textarea><br><br>
 
-        <input class="add-card-submit" type="submit" value="Submit">
+        <input class="chat_submit" type="submit" value="Submit">
     </form>
 {% endblock %}
