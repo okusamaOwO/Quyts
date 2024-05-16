@@ -118,20 +118,20 @@ def create_flashcard_quiz(request):
         for flashcard in flashcards:
             front = flashcard.question
             back = flashcard.answer
-            response = model.generate_content(
-            """
+            prompt = f"""
             Generate a multiple-choice question from a flashcard in the specified language:
-            - Front side: {front_side} (string)
-            - Back side: {back_side} (string)
-            - Language: {language}
+            - Front side: {front} (string)
+            - Back side: {back} (string)
+            - Language: English
 
             Return a JSON object in the following format:
-            {
-                "text": "{question text}", (string)
+            {{
+                "text": "{{question text}}", (string)
                 "answers": ["answer1", "answer2", "answer3", "answer4"], (list of strings)
-                "correct_answer": {index of correct answer} (integer),
-            }
-            """.format(front, back))
+                "correct_answer": {{index of correct answer}} (integer)
+            }}
+            """
+            response = model.generate_content(prompt)
             question = json.loads(response.text)
             questions.append(question)
 
