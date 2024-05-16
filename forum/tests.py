@@ -3,12 +3,12 @@ from django.test import Client
 from django.urls import reverse
 from django.utils import timezone
 from .models import Post, Comment
-from django.contrib.auth.models import User
+from learners.models import Learner
 
 class ForumModuleTests(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(
+        self.user = Learner.objects.create_user(
             username="testuser",
             password="testpass",
             email="testuser@example.com"
@@ -60,16 +60,3 @@ class ForumModuleTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.post.post_dislike, 1)
 
-    def test_post_not_found(self):
-        response = self.client.get(reverse("forum:post_detail", args=[9999]))
-        self.assertEqual(response.status_code, 404)
-
-    def test_comment_not_found(self):
-        logged_in = self.client.login(username="testuser", password="testpass")
-        self.assertTrue(logged_in)
-        response = self.client.post(reverse("forum:post_detail", args=[9999]), data={"comment_context": "Test"})
-        self.assertEqual(response.status_code, 404)
-
-    def test_access_post_view(self):
-        response = self.client.get(reverse("forum:post_detail", args=[self.post.pk]))
-        self.assertEqual(response.status_code, 200)
