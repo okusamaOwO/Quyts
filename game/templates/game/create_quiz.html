@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% include "game/new_base.html" %}
 
-{% block content %}
+<body>
 <div class="container mt-5">
     <h1 class="mb-4">Create Quiz</h1>
     <form id="quiz-form">
@@ -18,9 +18,9 @@
             <input type="number" class="form-control" id="number-of-questions" max="100">
         </div>
         <button type="button" class="btn btn-primary add-new-question mb-3">Add questions</button>
-        
+
         <div class="questions-form-container"></div>
-        
+
         <button type="button" class="btn btn-success create-quiz-btn">Create Quiz</button>
     </form>
 </div>
@@ -93,7 +93,7 @@
     });
     $(".create-quiz-btn").click(function() {
 
-        
+
         questions = []
         for(let i = 0 ; i < number_of_question ; i++) {
 
@@ -106,7 +106,7 @@
                     answer3 :$(`#answer3_question${i+1}`).val(),
                     answer4 :$(`#answer4_question${i+1}`).val(),
                     corret_answer : $(`#correct_answer_question${i+1}`).val(),
-                    
+
 
                 }
 
@@ -120,8 +120,8 @@
         }
         console.log(JSON.stringify(data_to_send))
 
-       
-        
+
+
 
 
 
@@ -160,10 +160,10 @@
                     alert(error)
                 }
             });
-        
+
     })
 
 </script>
 
-  
-{% endblock%}   
+
+</body>

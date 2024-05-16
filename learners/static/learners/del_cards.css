@@ -89,7 +89,7 @@ body {
     color: #DE8556;
 }
 
-.add-card-submit {
+.chat_submit {
     font-family: 'Be VietNam Pro', cursive;
     font-weight: 1000;
     font-size: 20px;
@@ -105,12 +105,12 @@ body {
     cursor: pointer;
 }
 
-.add-card-submit:hover {
+.chat_submit:hover {
     background-color: #DE8556;
     color: #fff;
 }
 
-.add-card-textarea {
+.lobby_textarea {
     border-radius: 5px;
     border: 1px solid #ccc;
     padding: 8px;
