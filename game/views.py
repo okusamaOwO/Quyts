@@ -86,7 +86,7 @@ def create_room(request):
             room = form.save(commit=False)
             room.host = request.user
             form.save()
-            return redirect('game')
+            return redirect('game:game')
     else:
         form = RoomForm()
     return render(request, 'game/create_room.html', {'form': form})

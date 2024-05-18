@@ -58,7 +58,7 @@
             tag_name : $("option").val(),
         }
          $.ajax({
-                url: "{% url 'quiz-flashcard' %}",
+                url: "{% url 'game:quiz-flashcard' %}",
                 type: "POST",
                 headers: {'X-CSRFToken': csrftoken},
                 mode: 'same-origin',

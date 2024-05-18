@@ -146,7 +146,7 @@
 
 
             $.ajax({
-                url: "{% url 'create-quiz' %}",
+                url: "{% url 'game:create-quiz' %}",
                 type: "POST",
                 headers: {'X-CSRFToken': csrftoken},
                 mode: 'same-origin',

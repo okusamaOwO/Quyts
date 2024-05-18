@@ -1,7 +1,7 @@
 from . import views
 from django.urls import path
 
-
+app_name = "game"
 urlpatterns = [
     path('', views.game, name = 'game'),
     path('room/play/<str:room_code>/',views.room, name= 'room'),
@@ -10,4 +10,3 @@ urlpatterns = [
     path('quiz/create_quiz_from_flashcard/', views.create_flashcard_quiz, name = 'quiz-flashcard'),
     path('room/', views.wait_room, name = 'rooms')
 ]
-

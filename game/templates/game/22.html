@@ -56,7 +56,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'create-quiz' %}", // Update with your Django URL
+                    url: "{% url 'game:create-quiz' %}", // Update with your Django URL
                     data: $(this).serialize(), // Serialize form data
                     success: function(response) {
                         // Handle success response

@@ -64,18 +64,18 @@
 
 <script>
     $(".room-page").click(function() {
-        window.location = '{% url "rooms" %}'
+        window.location = '{% url "game:rooms" %}'
     })
 
     $(".create-quiz").click(function() {
-        window.location = '{% url "create-quiz" %}'
+        window.location = '{% url "game:create-quiz" %}'
     })
 
     $(".create-room").click(function() {
-        window.location = '{% url "create-room" %}'
+        window.location = '{% url "game:create-room" %}'
     })
 
     $(".quiz-flashcard").click(function() {
-        window.location = '{% url "quiz-flashcard" %}'
+        window.location = '{% url "game:quiz-flashcard" %}'
     })
 </script>
