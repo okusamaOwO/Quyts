@@ -69,7 +69,7 @@ def create_quiz(request):
             answer2 = question["answer2"]
             answer3 = question["answer3"]
             answer4 = question["answer4"]
-            correct_answer = question["corret_answer"]
+            correct_answer = question["correct_answer"]
             question = Question.objects.create(quiz=new_quiz, text=question_text, answer1=answer1, answer2=answer2,
                                                answer3=answer3, answer4=answer4, correct_answer=correct_answer)
 
