@@ -2,7 +2,7 @@ from django import forms
 from .widgets import RoundedTextarea  # Import the custom widget
 
 class CommentForm(forms.Form):
-    comment_context = forms.CharField(label="Your_comment", widget=RoundedTextarea(attrs={'rows': 1, 'cols': 80}), max_length=200)
+    comment_context = forms.CharField(label="Your_comment", widget=RoundedTextarea(attrs={'rows': 3, 'cols': 80}), max_length=200)
 
 class PostForm(forms.Form):
     post_title = forms.CharField(  label="Tiêu đề :", widget=RoundedTextarea(attrs={'rows': 2, 'cols': 55}), max_length=200)

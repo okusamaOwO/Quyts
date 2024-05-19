@@ -38,8 +38,13 @@
         }
     };
     document.querySelector('#room-name-submit').onclick = function(e) {
-        var roomName = document.querySelector('#room-name-input').value;
-        window.location.pathname = '/game/room/play/' + roomName + '/';
+        var roomName = document.querySelector('#room-name-input').value.trim();
+        if (roomName === '') {
+            alert('Tên phòng không được để trống');
+            document.querySelector('#room-name-input').focus();
+        } else {
+            window.location.pathname = '/game/room/play/' + roomName + '/';
+        }
     };
 
     document.querySelector('#create-room').onclick = function(e) {

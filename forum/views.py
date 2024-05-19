@@ -82,6 +82,7 @@ def like_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.post_like = F('post_like') + 1
     post.save()
+    post.refresh_from_db()
     return JsonResponse({'post_like': post.post_like})
 
 @login_required
@@ -90,6 +91,7 @@ def dislike_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.post_dislike = F('post_dislike') + 1
     post.save()
+    post.refresh_from_db()
     return JsonResponse({'post_dislike': post.post_dislike})
 
 # Create your views here.

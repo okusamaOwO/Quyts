@@ -69,7 +69,7 @@ def create_quiz(request):
             answer2 = question["answer2"]
             answer3 = question["answer3"]
             answer4 = question["answer4"]
-            correct_answer = question["corret_answer"]
+            correct_answer = question["correct_answer"]
             question = Question.objects.create(quiz=new_quiz, text=question_text, answer1=answer1, answer2=answer2,
                                                answer3=answer3, answer4=answer4, correct_answer=correct_answer)
 
@@ -86,7 +86,7 @@ def create_room(request):
             room = form.save(commit=False)
             room.host = request.user
             form.save()
-            return redirect('game')
+            return redirect('game:game')
     else:
         form = RoomForm()
     return render(request, 'game/create_room.html', {'form': form})
@@ -118,20 +118,20 @@ def create_flashcard_quiz(request):
         for flashcard in flashcards:
             front = flashcard.question
             back = flashcard.answer
-            response = model.generate_content(
-                """
-                given a flashcard with 2 sides, the phrase/question (front side) and the meaning/answer (back side).
-                the front side is: {0}.
-                the back side is: {1}.
-                as to make a multiple-choice question, generate A, B, C and D answers for the back font 
-                (with one of the options is the back side, and without word in the font , 3 answer is false, 1 answer 1 correct, and these answers have the same language).
-                and correct_answer 
-                return only a json format and  format must same above:
-                "text" : ...,
-                "answers" : ["answer1" : "", "answer2" :"", "answer3" : , "answer4" :],
-                "correct_answer" :  (return 0 for answer1 , 1 for answer 2, 2 for answer3, 3 for answer4).
-    
-                """.format(front, back))
+            prompt = f"""
+            Generate a multiple-choice question from a flashcard in the specified language:
+            - Front side: {front} (string)
+            - Back side: {back} (string)
+            - Language: English
+
+            Return a JSON object in the following format:
+            {{
+                "text": "{{question text}}", (string)
+                "answers": ["answer1", "answer2", "answer3", "answer4"], (list of strings)
+                "correct_answer": {{index of correct answer}} (integer)
+            }}
+            """
+            response = model.generate_content(prompt)
             question = json.loads(response.text)
             questions.append(question)
 
