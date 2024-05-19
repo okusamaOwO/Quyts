@@ -1,5 +1,13 @@
 @import url('https://fonts.cdnfonts.com/css/be-vietnam-pro');
 
+
+label {
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: left;
+    color: #3875d7;
+}
 .row {
     display: flex;
     align-items: flex-start;
@@ -9,23 +17,64 @@
 .col-sm {
     padding: 0;
 }
-
+.container {
+    height:60vh;
+}
 .common-heading {
     font-family: 'Be VietNam Pro', cursive;
     font-weight: 700;
-    font-size: 100px;
-    text-align: center;
+    font-size: 30px;
+    text-align: left;
     margin-top: 20px;
-    color: #DE8556;
+    color: #4ac1f7;
+}
+.form-container{
+    margin: 20px auto 0 auto; /* Add this line to create a top margin of 100px */
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+form #quiz-form {
+    margin: 20px auto 0 auto; /* Add this line to create a top margin of 100px */
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.table {
+    padding-top: 10px;
+    color: #4ac1f7;
 }
 
-.container {
-    margin-top: 100px;
+button{
+    font-family: 'Be VietNam Pro', cursive;
+    font-weight: 500;
+    font-size: 20px;
+    color: #F5F5F5;
+    text-decoration: none;
+    text-decoration: none;
+    margin-left:20px;
+    margin-top: 30px;
+    border-width: 0px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-color: #58355E;
+    background-color: #0099ff;
+    transition: background-color 0.3s ease-in-out;
+}
+button:hover {
+    background-color: #DE8556; /* Change the background color on hover */
+    color: white; /* Optionally, change the text color on hover */
 }
 
 body {
-    background-color: #FFE7D4;
+    background-color: #F5F5F5;
     font-family: 'Be VietNam Pro', cursive;
+    font-weight: 500;
+
 }
 
 .add-card-form {

@@ -1,18 +1,21 @@
-{% include "game/new_base.html" %}
+{% extends "game/new_base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'learners/game.css' %}">
 <body>
 <div class="container">
     <hr>
     <div class="row">
         <div class="col-md-6">
-            <button id="create-room" class="btn btn-primary">Tạo phòng</button>
+            <button id="create-room" class="button">Tạo phòng</button>
             <hr>
             <label for="room-name-input">Nhập tên phòng:</label><br>
             <input id="room-name-input" type="text" class="form-control" size="50"><br>
-            <button id="room-name-submit" class="btn btn-success">Vào phòng</button>
+            <button id="room-name-submit" class="button">Vào phòng</button>
             <hr>
         </div>
         <div class="col-md-6">
-            <h2>Danh sách các phòng:</h2>
+            <h2 class = "common-heading">Danh sách các phòng:</h2>
             <ul class="list-group" id="room-list">
                 {% for room in rooms %}
                     {% if not room.private %}
@@ -30,7 +33,7 @@
 <script>
     document.querySelector('#room-name-input').focus();
     document.querySelector('#room-name-input').onkeyup = function(e) {
-        if (e.key === 'Enter') {  
+        if (e.key === 'Enter') {
             document.querySelector('#room-name-submit').click();
         }
     };
@@ -44,4 +47,4 @@
     }
 </script>
 </body>
-
+{% endblock %}

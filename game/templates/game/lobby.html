@@ -1,5 +1,7 @@
 {% include "game/new_base.html" %}
 {% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'learners/game.css' %}">
 <body>
 <div class="hidden"></div>
 <div class="container">
@@ -7,15 +9,11 @@
   <br />
 
   <textarea id="chat-log" class="form-control mb-3" cols="50" rows="10"></textarea>
-  <input id="chat-message-input" class="form-control mb-3" type="text" size="50" />
+  <input id="chat-message-input" class="form-control mb-3" type="text" size="50" placeholder="Your message"/>
   <button id="chat-message-submit" class="btn btn-primary mb-3">Send</button>
-
   <hr />
 
   <button id="start-game" class="btn btn-success">Start Game</button>
-
-
-
   <div id="question-container" class="container hidden">
     <div id="timer" class="text-center mb-3"></div>
     <div id="score" class="text-center mb-3">Score: 0</div>
@@ -88,6 +86,7 @@ let score= 0;
     questionRow.innerHTML = "";
     answerRow.innerHTML = "";
   
+    // Tạo phần tử câu hỏi
     // Tạo phần tử câu hỏi
     const questionElement = document.createElement("div");
     questionElement.classList.add("col", "question");
@@ -368,7 +367,5 @@ function showScoreAnimation(score) {
     websocket.send(JSON.stringify(msg));
   });
 </script>
-
-
-<script>
 </body>
+{% endblock %}

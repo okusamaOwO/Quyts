@@ -1,8 +1,12 @@
-{% include "game/new_base.html" %}
-
+{% extends "game/new_base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'learners/game.css' %}">
 <body>
-<div class="container mt-5">
-    <h1 class="mb-4">Create Quiz</h1>
+<div class="container">
+    <h1 class="common-heading">Create Quiz</h1>
+    <div class = "form-container">
+
     <form id="quiz-form">
         {% csrf_token %}
         <div class="form-group">
@@ -11,7 +15,7 @@
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            <textarea class="form-control" id="description" name="description" rows="3" cols = "50"></textarea>
         </div>
         <div class="form-group">
             <label for="number-of-questions">Enter number of questions:</label>
@@ -23,6 +27,7 @@
 
         <button type="button" class="btn btn-success create-quiz-btn">Create Quiz</button>
     </form>
+    </div>
 </div>
 
 <script>
@@ -164,6 +169,7 @@
     })
 
 </script>
-
+</div>
 
 </body>
+{% endblock %}
