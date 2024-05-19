@@ -15,7 +15,8 @@
         --quiz-flashcard-color: rgb(216, 185, 0);
         --create-quiz-color: rgb(14, 192, 106);
         --create-room-color: rgb(181, 15, 44);
-        --background-gradient: linear-gradient(135deg, #1e1e1e, #121212, #3a3a3a, #e6e6e6);
+        --background-gradient: linear-gradient(135deg, #74ebd5, #9face6);
+        /* Gradient từ màu xanh dương nhạt đến màu tím nhạt */
     }
 
     body {
@@ -32,11 +33,11 @@
         width: 100%;
         max-width: 1000px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
         gap: var(--grid-gap);
         padding: 20px;
     }
-
     .link {
         padding: var(--link-padding);
         border-radius: var(--border-radius);

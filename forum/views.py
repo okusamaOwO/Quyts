@@ -48,10 +48,8 @@ def postView(request, pk):
             vote_form = VoteForm(request.POST)
             if comment_form.is_valid():
                 try:
-                    comment = post.comment_set.create(
-                        comment_context=comment_form.cleaned_data['comment_context'],
-                        pub_date_comment=timezone.now(),
-                    )
+                    comment = Comment.objects.create(post = post,   comment_owner = request.user, comment_context = comment_form.cleaned_data['comment_context'],
+                                                     pub_date_comment = timezone.now() )
                     return redirect(reverse("forum:post_detail", args=[pk]))
                 except IntegrityError:
                     messages.error(request, 'Comment error')

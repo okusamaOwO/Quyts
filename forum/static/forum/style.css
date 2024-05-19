@@ -1,0 +1,13 @@
+.comment {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-user {
+    flex: 1;
+    margin-right: 10px; /* Để tạo khoảng cách giữa tên người dùng và nội dung comment */
+}
+
+.comment-content {
+    flex: 3; /* Để nội dung comment chiếm nhiều không gian hơn so với tên người dùng */
+}

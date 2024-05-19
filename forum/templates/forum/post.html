@@ -1,60 +1,71 @@
-{% extends "learners/index.html" %}
-{% load static %}
+    {% extends "learners/index.html" %}
+    {% load static %}
+<style>
 
-{% block nav %}
-    <a href="">Tạo flashcard</a>
-    <a href="">Diễn đàn</a>
-    <a href="">Trò chơi</a>
-{% endblock %}
-{% block post %}
-    <div class="post">
+
+body{
+    background-color: black;
+}
+
+</style>
+    {% block nav %}
+    <div class="nav">
+        <a href="">Tạo flashcard</a>
+        <a href="">Diễn đàn</a>
+        <a href="">Trò chơi</a>
+    </div>
+    {% endblock %}
+
+    {% block post %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <div class="post" style="height: 100%;">
         <h1 class="logo">
-            <span>
-                {{ post.post_title }}
-            </span>
+            <span>{{ post.post_title }}</span>
         </h1>
         <div class="comment-box">
             <p class="comment-text">{{ post.post_content }}</p>
         </div>
-        <div  class="d-flex justify-content-start">
+        <div class="d-flex justify-content-start">
             <button class="btn btn-primary d-flex align-items-center like">
-                <span class = "like-content"style="margin-right : 4px;">{{post.post_like}}</span>
-                <i class="fa-solid fa-thumbs-up mr-2"></i>
+                <span class="like-content">{{ post.post_like }}</span>
+                <i class="fa-solid fa-thumbs-up"></i>
             </button>
             <button class="btn btn-primary d-flex align-items-center dislike">
-                <span class = "dislike-content" style="margin-right : 4px;">{{post.post_dislike}}</span>
-                <i class="fa-solid fa-thumbs-down mr-2"></i>
-               
+                <span class="dislike-content">{{ post.post_dislike }}</span>
+                <i class="fa-solid fa-thumbs-down"></i>
             </button>
         </div>
-     
-
-        <form method="post">
-        <div class="vote-form">
+        <form method="post" class="vote-form">
             {% csrf_token %}
             {{ comment_form }}
             <button class="smaller-button" type="submit">Comment</button>
-        </div>
         </form>
-        <div>
-            {% for comment in post.comment_set.all %}
-            <blockquote class="comment">
-                <p>{{ comment.comment_context }}</p>
-            </blockquote>
-            {% endfor %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Comments
+            </div>
+            <div class="card-body">
+                {% for comment in post.comment_set.all %}
+                <blockquote class="blockquote">
+                    <i class="fa-solid fa-user"></i>
+                    <span><strong>{{ comment.comment_owner.username }}</strong></p> </span>
+                    <h3>{{comment.comment_context}}</h3> 
+                </blockquote>
+                <hr>
+                {% endfor %}
+            </div>
         </div>
+    </div>
     </div>
 
     <script>
-
-
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
                 const cookies = document.cookie.split(';');
                 for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
@@ -65,54 +76,42 @@
         }
         const csrftoken = getCookie('csrftoken');
 
-
-
-
- 
-
-        $(".like").click(function(){
-
-            like = $(".like-content").val(); 
-            $.ajax({
-                url: window.location,
-                type: "POST",
-                headers: {'X-CSRFToken': csrftoken},
-                mode: 'same-origin',
-                contentType: "application/json",
-                data: JSON.stringify({
-                    type : "like"
-                })  ,
-                success: function(response) {
-                    location.reload()
+        document.querySelector(".like").addEventListener("click", function() {
+            fetch(window.location, {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json'
                 },
-                error: function(xhr, status, error) {
-                    alert(error)
+                body: JSON.stringify({ type: "like" })
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert("Error: " + response.statusText);
                 }
-            });
-        })  
+            })
+            .catch(error => alert("Error: " + error));
+        });
 
-        
-        $(".dislike").click(function(){
-
-            like = $(".dislike-content").val(); 
-            $.ajax({
-                url: window.location,
-                type: "POST",
-                headers: {'X-CSRFToken': csrftoken},
-                mode: 'same-origin',
-                contentType: "application/json",
-                data: JSON.stringify({
-                    type : "dislike"
-                })  ,
-                success: function(response) {
-                    location.reload()
+        document.querySelector(".dislike").addEventListener("click", function() {
+            fetch(window.location, {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json'
                 },
-                error: function(xhr, status, error) {
-                    alert(error)
+                body: JSON.stringify({ type: "dislike" })
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert("Error: " + response.statusText);
                 }
-            });
-        })  
-
+            })
+            .catch(error => alert("Error: " + error));
+        });
     </script>
-{% endblock %}
-
+    {% endblock %}

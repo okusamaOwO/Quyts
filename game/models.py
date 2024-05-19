@@ -50,6 +50,4 @@ class Question(models.Model):
     answer3 = models.CharField(max_length=100, default='')
     answer4 = models.CharField(max_length=100, default='')
     correct_answer = models.IntegerField(choices=[(0, 'Answer 1'), (1, 'Answer 2'), (2, 'Answer 3'), (3, 'Answer 4')], default=0)
-    def __str__(self):
-        return self.title
 
