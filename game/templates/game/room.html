@@ -2,27 +2,26 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'learners/game.css' %}">
-<body>
-<div class="container">
-    <hr>
+
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <button id="create-room" class="button">Tạo phòng</button>
+            <button id="create-room" class="button btn btn-primary mb-3">Create Room</button>
             <hr>
-            <label for="room-name-input">Nhập tên phòng:</label><br>
-            <input id="room-name-input" type="text" class="form-control" size="50"><br>
-            <button id="room-name-submit" class="button">Vào phòng</button>
+            <label for="room-name-input">Enter Room Code</label><br>
+            <input id="room-name-input" type="text" class="form-control mb-3" size="50"><br>
+            <button id="room-name-submit" class="button btn btn-success">Join Room</button>
             <hr>
         </div>
         <div class="col-md-6">
-            <h2 class = "common-heading">Danh sách các phòng:</h2>
+            <h2 class="common-heading">Danh sách các phòng:</h2>
             <ul class="list-group" id="room-list">
                 {% for room in rooms %}
                     {% if not room.private %}
                         <li class="list-group-item">
                             <h4>{{ room.room_name }}</h4>
-                            <p>{{ room.room_code }}</p>
-                            <p>Room Host :  <b>{{ room.host.username }}</b></p>
+                            <p>  Room Code : <b>{{ room.room_code }} </b></p>
+                            <p>Room Host : <b>{{ room.host.username }}</b></p>
                         </li>
                     {% endif %}
                 {% endfor %}
@@ -30,7 +29,14 @@
         </div>
     </div>
 </div>
+
 <script>
+    
+    var rooms = JSON.parse('{{ rooms_json|escapejs }}');
+    var roomNames = [];
+    rooms.forEach(function(room) {
+        roomNames.push(room.fields.room_code);
+    });
     document.querySelector('#room-name-input').focus();
     document.querySelector('#room-name-input').onkeyup = function(e) {
         if (e.key === 'Enter') {
@@ -43,13 +49,17 @@
             alert('Tên phòng không được để trống');
             document.querySelector('#room-name-input').focus();
         } else {
-            window.location.pathname = '/game/room/play/' + roomName + '/';
+            if (roomNames.includes(roomName)) {
+                window.location.pathname = '/game/room/play/' + roomName + '/';
+            } else {
+                alert("Room Code is not valid");
+            }
         }
     };
+    
 
     document.querySelector('#create-room').onclick = function(e) {
         window.location.pathname = '/game/room/create_room/';
     }
 </script>
-</body>
 {% endblock %}

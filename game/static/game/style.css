@@ -87,8 +87,29 @@ background-color: #5E1675;
 .asw4{
   background-color: #337357
 }
-.form-container{
-background-color: red;
-width: 100px;
+
+.rank-container {
+  margin-top: 200px;
 }
 
+
+
+.correct-answer {
+  color: green;
+}
+
+.incorrect-answer {
+  color: red;
+}
+
+.feedback {
+  font-size: 32px; /* Kích thước font chữ lớn hơn */
+  font-weight: bold;
+  position: absolute;
+  top: 150%; /* Đặt phần tử ở phía dưới của phần tử cha */
+  left: 50%; /* Đặt phần tử ở giữa theo chiều ngang */
+  transform: translateX(-50%); /* Dịch chuyển phần tử về bên trái 50% của chiều rộng của nó */
+  width: auto; /* Tự động điều chỉnh chiều rộng */
+  text-align: center; /* Căn giữa nội dung */
+  z-index: 1; /* Đảm bảo phần tử này được hiển thị trên phần tử câu hỏi */
+}

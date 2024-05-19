@@ -8,7 +8,7 @@
   <p id="user-online">People : <span id="user-count"></span></p>
   <br />
 
-  <textarea id="chat-log" class="form-control mb-3" cols="50" rows="10"></textarea>
+  <textarea id="chat-log" class="form-control mb-3" cols="50" rows="10" readonly style="overflow-y: scroll;"></textarea>
   <input id="chat-message-input" class="form-control mb-3" type="text" size="50" placeholder="Your message"/>
   <button id="chat-message-submit" class="btn btn-primary mb-3">Send</button>
   <hr />
@@ -22,11 +22,12 @@
   </div>
 </div>
 
-<div class="rank-container">
+<div class="rank-container ">
 
   <table class="table">
     <thead>
       <tr>
+        <th scope="col">Top</th>
         <th scope="col">User</th>
         <th scope="col">Score</th>
       </tr>
@@ -39,6 +40,13 @@
 </div>
 
 <script>
+
+  var chatLog = document.getElementById('chat-log');
+  chatLog.scrollTop = chatLog.scrollHeight; 
+
+  function autoScroll() {
+      chatLog.scrollTop = chatLog.scrollHeight;
+  }
   const roomCode = "{{room_code}}";
   const user_name = "{{user_name}}";
   const host_name = "{{host_name}}";
@@ -66,9 +74,10 @@ let score= 0;
   const btn_start_game = document.getElementById("start-game");
   const timerElement = document.getElementById("timer");
 
-
   if(user_name != host_name) {
     btn_start_game.classList.add('hidden')
+    document.querySelector(".rank-container").classList.add('hidden')
+
   }
  
   function adminFunction( excute  ) {
@@ -146,7 +155,7 @@ let score= 0;
             currentQuestionIndex++;
             if (currentQuestionIndex < Object.keys(questions_json).length) {
               renderCurrentQuestion();
-              timeLeft = 30; 
+              timeLeft = TIME_LEFT; 
             } else {
               // Nếu không còn câu hỏi nào, hiển thị thông báo hoặc thực hiện hành động khác
               questionRow.innerHTML =
@@ -155,7 +164,6 @@ let score= 0;
               timeLeft = 0;
             }
           }, 500);
-          timeLeft = 30;
         });
   
         // Thêm phần tử câu trả lời vào hàng câu trả lời
@@ -176,8 +184,8 @@ let score= 0;
   // Bắt đầu với câu hỏi đầu tiên
 
 
-
-  let timeLeft = 30; // Thời gian còn lại ban đầu cho mỗi câu hỏi
+  const TIME_LEFT = 60;
+  let timeLeft = TIME_LEFT; // Thời gian còn lại ban đầu cho mỗi câu hỏi
   let timerInterval;
 
   function startTimer() {
@@ -186,7 +194,7 @@ let score= 0;
 
   function stopTimer() {
     clearInterval(timerInterval);
-    timeLeft = 30; // Reset thời gian còn lại cho câu hỏi tiếp theo
+    timeLeft = TIME_LEFT; // Reset thời gian còn lại cho câu hỏi tiếp theo
   }
 
   function updateTimer() {
@@ -204,10 +212,15 @@ let score= 0;
   function handleTimeout() {
     // Viết mã để xử lý khi hết giờ ở đây, ví dụ: chuyển sang câu hỏi tiếp theo
     // Chuyển sang câu hỏi tiếp theo sau 1 giây
-    setTimeout(() => {
+   
       currentQuestionIndex++;
-      if (currentQuestionIndex < questions.length) {
+      setTimeout(() =>{
+         if (currentQuestionIndex < questions.length) {
         renderCurrentQuestion();
+        timeLeft = TIME_LEFT;
+        stopTimer()
+        startTimer()
+
       } else {
         // Nếu không còn câu hỏi nào, hiển thị thông báo hoặc thực hiện hành động khác
         questionRow.innerHTML =
@@ -215,14 +228,15 @@ let score= 0;
         answerRow.innerHTML = "";
         timeLeft = 0;
       }
-    }, 100);
-    stopTimer();
+    },1000)
+
+
   }
 
   function handleAnswer(isCorrect) {
     if (isCorrect) {
         
-        diem_thuong = (timeLeft) * 50  ;
+        diem_thuong = (timeLeft) * 25 ;
         showScoreAnimation(diem_thuong); // Hiển thị hiệu ứng cộng điểm
         score += diem_thuong; // Tăng điểm số khi trả lời đúng
         scoreElement.textContent = `Score: ${score}`;
@@ -266,6 +280,7 @@ function showScoreAnimation(score) {
         if (data.message != "") {
           chat_log.innerHTML =
             chat_log.value + data.user_name + " : " + data.message + "\n";
+            autoScroll()
         }
       break;
       case "number_user_message":
@@ -284,16 +299,22 @@ function showScoreAnimation(score) {
 );
           const table = document.querySelector('tbody');
           table.innerHTML = ''
+          var top_len = 1;
           for (const user_name in users) {
             if (users.hasOwnProperty(user_name)) {
               const score = users[user_name];
           const newRow = document.createElement('tr');
+          const top_cell = document.createElement('td');
+
+          top_cell.innerHTML = top_len;
           const user_cell = document.createElement('td');
           user_cell.innerHTML = user_name
           const score_cell = document.createElement('td');
           score_cell.innerHTML = score;
+          newRow.appendChild(top_cell)
           newRow.appendChild(user_cell);
           newRow.appendChild(score_cell);
+          top_len++;
           
     // Lấy thẻ table và gắn hàng mới vào cuối bảng
        

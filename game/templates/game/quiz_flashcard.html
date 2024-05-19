@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'learners/game.css' %}">
+
 <body>
 
 <div class="container mt-5">
@@ -32,7 +33,20 @@
     </div>
 
 </div>
+
+<div id="loading-overlay">
+    <div id="loading-spinner"></div>
+</div>
+
 <script>
+
+    function showLoading() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+    }
+
+    function hideLoading() {
+        document.getElementById('loading-overlay').style.display = 'none';
+    }
 
     $(".create-quiz-btn").click(function() {
         function getCookie(name) {
@@ -60,6 +74,8 @@
             quiz_description : $("#description").val(),
             tag_name : $("option").val(),
         }
+
+        showLoading();
          $.ajax({
                 url: "{% url 'game:quiz-flashcard' %}",
                 type: "POST",

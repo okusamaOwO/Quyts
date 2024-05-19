@@ -3,55 +3,76 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+    :root {
+        --font-family: 'Poppins', sans-serif;
+        --grid-gap: 40px;
+        --link-padding: 32px;
+        --border-radius: 16px;
+        --font-size: 24px;
+        --font-weight: 600;
+        --hover-transform: translateY(-4px);
+        --room-color: rgb(0, 123, 255);
+        --quiz-flashcard-color: rgb(216, 185, 0);
+        --create-quiz-color: rgb(14, 192, 106);
+        --create-room-color: rgb(181, 15, 44);
+        --background-gradient: linear-gradient(135deg, #1e1e1e, #121212, #3a3a3a, #e6e6e6);
+    }
+
     body {
-        background-color: #F5F5F5;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Poppins', sans-serif;
+        background: var(--background-gradient);
         display: grid;
         place-items: center;
-        min-height: 90vh;
+        min-height: 100vh;
         margin: 0;
+        font-family: var(--font-family);
+        color: #ffffff;
     }
 
     .link-container {
-        width: 1000px;
-        height: 600px;
+        width: 100%;
+        max-width: 1000px;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 40px;
-        max-width: 1200px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--grid-gap);
+        padding: 20px;
     }
 
     .link {
-        padding: 32px;
-        border-radius: 16px;
+        padding: var(--link-padding);
+        border-radius: var(--border-radius);
         color: #fff;
-        font-size: 24px;
-        font-weight: 600;
+        font-size: var(--font-size);
+        font-weight: var(--font-weight);
         text-align: center;
         cursor: pointer;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .link:hover {
-        transform: translateY(-4px);
+        transform: var(--hover-transform);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
     .room-page {
-        background-color: rgb(0, 153, 255);
+        background-color: var(--room-color);
     }
 
     .quiz-flashcard {
-        background-color: rgb(226, 185, 17);
+        background-color: var(--quiz-flashcard-color);
     }
 
     .create-quiz {
-        background-color: rgb(24, 192, 136);
+        background-color: var(--create-quiz-color);
     }
 
     .create-room {
-        background-color: rgb(201, 25, 54);
+        background-color: var(--create-room-color);
+    }
+
+    @media (max-width: 768px) {
+        .link-container {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
@@ -63,19 +84,19 @@
 </div>
 
 <script>
-    $(".room-page").click(function() {
-        window.location = '{% url "game:rooms" %}'
-    })
+    document.querySelector('.room-page').addEventListener('click', function() {
+        window.location.href = '{% url "game:rooms" %}';
+    });
 
-    $(".create-quiz").click(function() {
-        window.location = '{% url "game:create-quiz" %}'
-    })
+    document.querySelector('.create-quiz').addEventListener('click', function() {
+        window.location.href = '{% url "game:create-quiz" %}';
+    });
 
-    $(".create-room").click(function() {
-        window.location = '{% url "game:create-room" %}'
-    })
+    document.querySelector('.create-room').addEventListener('click', function() {
+        window.location.href = '{% url "game:create-room" %}';
+    });
 
-    $(".quiz-flashcard").click(function() {
-        window.location = '{% url "game:quiz-flashcard" %}'
-    })
+    document.querySelector('.quiz-flashcard').addEventListener('click', function() {
+        window.location.href = '{% url "game:quiz-flashcard" %}';
+    });
 </script>

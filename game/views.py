@@ -13,6 +13,7 @@ from .models import Quiz, Question
 from flashcards.models import Tag, Cards
 import json
 import google.generativeai as genai
+from django.core import serializers
 
 
 def game(request):
@@ -21,8 +22,10 @@ def game(request):
 
 def wait_room(request):
     rooms = Room.objects.all()
+    rooms_json = serializers.serialize('json', rooms)
     context = {
         'rooms': rooms,
+        'rooms_json' : rooms_json,
     }
     return render(request, 'game/room.html', context)
 
@@ -64,7 +67,7 @@ def create_quiz(request):
 
         for question in questions:
             question_text = question["text"]
-            # Tạo câu hỏi mới và lưu vào quiz
+   
             answer1 = question["answer1"]
             answer2 = question["answer2"]
             answer3 = question["answer3"]
@@ -73,7 +76,7 @@ def create_quiz(request):
             question = Question.objects.create(quiz=new_quiz, text=question_text, answer1=answer1, answer2=answer2,
                                                answer3=answer3, answer4=answer4, correct_answer=correct_answer)
 
-        return JsonResponse({'success': True})  # Trả về JSON thành công
+        return JsonResponse({'success': True})  
 
     return render(request, 'game/create_quiz.html', context, )
 
@@ -116,38 +119,45 @@ def create_flashcard_quiz(request):
         model = genai.GenerativeModel('models/gemini-1.0-pro')
         questions = []
         for flashcard in flashcards:
-            front = flashcard.question
-            back = flashcard.answer
-            prompt = f"""
-            Generate a multiple-choice question from a flashcard in the specified language:
-            - Front side: {front} (string)
-            - Back side: {back} (string)
-            - Language: English
+            try:
+                front = flashcard.question
+                back = flashcard.answer
+                prompt = f"""
+                Generate a multiple-choice question from a flashcard in the specified language:
+                - Front side: {front} (string)
+                - Back side: {back} (string)
+                - Language: English
 
-            Return a JSON object in the following format:
-            {{
-                "text": "{{question text}}", (string)
-                "answers": ["answer1", "answer2", "answer3", "answer4"], (list of strings)
-                "correct_answer": {{index of correct answer}} (integer)
-            }}
-            """
-            response = model.generate_content(prompt)
-            question = json.loads(response.text)
-            questions.append(question)
+                Return a JSON object (have to same)  in the following format ():
+                {{
+                    "text": "{{question text}}", (string)
+                    "answers": ["answer1", "answer2", "answer3", "answer4"], (list of strings)
+                    "correct_answer": {{index of correct answer}} (integer)
+                }}
+                
+                """
+                response = model.generate_content(prompt)
+                print(response.text)
+                question = json.loads(response.text)
+                questions.append(question)
+            except:
+                pass
 
         new_quiz = Quiz.objects.create(title=title, description=description, author=request.user)
 
         for question in questions:
-            question_text = question["text"]
-            # Tạo câu hỏi mới và lưu vào quiz
-            answer1 = question["answers"][0]
-            answer2 = question["answers"][1]
-            answer3 = question["answers"][2]
-            answer4 = question["answers"][3]
-            correct_answer = question["correct_answer"]
-            question = Question.objects.create(quiz=new_quiz, text=question_text, answer1=answer1, answer2=answer2,
-                                               answer3=answer3, answer4=answer4, correct_answer=correct_answer)
-
+            try :
+                question_text = question["text"]
+                # Tạo câu hỏi mới và lưu vào quiz
+                answer1 = question["answers"][0]
+                answer2 = question["answers"][1]
+                answer3 = question["answers"][2]
+                answer4 = question["answers"][3]
+                correct_answer = question["correct_answer"]
+                question = Question.objects.create(quiz=new_quiz, text=question_text, answer1=answer1, answer2=answer2,
+                                                answer3=answer3, answer4=answer4, correct_answer=correct_answer)
+            except:
+                pass
         return JsonResponse({'success': True})  # Trả về JSON thành công
     return render(request, 'game/quiz_flashcard.html', context, )
 
