@@ -73,7 +73,7 @@ let score= 0;
   const user_online = document.getElementById("user-online");
   const btn_start_game = document.getElementById("start-game");
   const timerElement = document.getElementById("timer");
-
+  user_online.classList.add("hidden");
   if(user_name != host_name) {
     btn_start_game.classList.add('hidden')
     document.querySelector(".rank-container").classList.add('hidden')
@@ -371,7 +371,6 @@ function showScoreAnimation(score) {
     chat_submit.classList.add("hidden");
     chat_log.classList.add("hidden");
     quiz_container.classList.remove("hidden");
-    user_online.classList.add("hidden");
     startTimer();
     btn_start_game.classList.add("hidden")
    }

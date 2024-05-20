@@ -161,4 +161,3 @@ def create_flashcard_quiz(request):
         return JsonResponse({'success': True})  # Trả về JSON thành công
     return render(request, 'game/quiz_flashcard.html', context, )
 
-
