@@ -9,7 +9,7 @@
             <p class="flashcard-info"><strong>Tag: {{ tag.name }}</strong></p>
         </div>
         <div class="flashcard-button-container">
-            <button id="flashcardButton" class="flashcard-button" onclick="flipFlashCard()" data_question="" data_answer="">
+            <button id="flashcardButton" class="flashcard-button" onclick="flipFlashCard()" data-question="" data-answer="">
             </button>
         </div>
         <div class="flashcard-nav-buttons">
@@ -28,9 +28,11 @@
         var flashcardButton = document.getElementById('flashcardButton');
 
         function showFlashcard(index) {
-            flashcardButton.setAttribute('data_question', flashcards[index].question);
-            flashcardButton.setAttribute('data_answer', flashcards[index].answer);
-            flashcardButton.innerText = flashcardButton.getAttribute('data_question');
+            flashcardButton.dataset.question = flashcards[index].question;
+            flashcardButton.dataset.answer = flashcards[index].answer;
+            flashcardButton.title = ""; // Remove the title attribute
+            flashcardButton.innerText = flashcards[index].question;
+            flashcardButton.scrollTop = 0; // Scroll to the top of the button
         }
 
         function showPreviousCard() {
@@ -44,13 +46,16 @@
         }
 
         function flipFlashCard() {
-            var question = flashcardButton.getAttribute("data_question");
-            var answer = flashcardButton.getAttribute("data_answer");
-
-            if (flashcardButton.innerText == question) {
-                flashcardButton.innerText = answer;
+            var question = flashcardButton.dataset.question;
+            var answer = flashcardButton.dataset.answer;
+            console.log(question)
+            console.log(answer)
+            if (flashcardButton.innerHTML === question) {
+                flashcardButton.innerHTML = answer;
+                flashcardButton.scrollTop = 0; // Scroll to the top of the button
             } else {
-                flashcardButton.innerText = question;
+                flashcardButton.innerHTML = question;
+                flashcardButton.scrollTop = 0; // Scroll to the top of the button
             }
         }
 

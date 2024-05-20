@@ -30,28 +30,28 @@
     justify-content: center;
     margin-bottom: 20px;
     width: 100%;
-
 }
 
 .flashcard-button {
     font-family: 'Be VietNam Pro', cursive;
     font-weight: 700;
-    font-size: 36px; /* Increased font size */
+    font-size: 36px;
     color: #190B28;
     background-color: #fff;
     height: 300px;
     width: 50%;
-    border: 4px solid #DE8556; /* Increased border width */
-    border-radius: 20px; /* Increased border radius */
- /* Increased padding */
-    cursor: pointer;
-    /*transition: background-color 0.3s ease, color 0.3s ease;*/
+    border: 4px solid #DE8556;
+    border-radius: 20px;
+    padding: 20px;
+    overflow: auto;
+    text-overflow: unset;
+    white-space: normal;
 }
 
-/*.flashcard-button:hover {*/
-/*    background-color: #DE8556;*/
-/*    color: #fff;*/
-/*}*/
+.flashcard-button:hover {
+    background-color: #DE8556;
+    color: #fff;
+}
 
 .flashcard-nav-buttons {
     display: flex;

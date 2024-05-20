@@ -1,45 +1,44 @@
-    {% extends "learners/index.html" %}
-    {% load static %}
+{% extends "learners/index.html" %}
+{% load static %}
+
 <style>
-
-
-body{
-    background-color: black;
-}
-
+    body {
+        background-color: black;
+    }
 </style>
-    {% block nav %}
-    <div class="nav">
-        <a href="">Tạo flashcard</a>
-        <a href="">Diễn đàn</a>
-        <a href="">Trò chơi</a>
-    </div>
-    {% endblock %}
 
-    {% block post %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <div class="post" style="height: 100%;">
-        <h1 class="logo">
-            <span>{{ post.post_title }}</span>
-        </h1>
-        <div class="comment-box">
-            <p class="comment-text">{{ post.post_content }}</p>
-        </div>
-        <div class="d-flex justify-content-start">
-            <button class="btn btn-primary d-flex align-items-center like">
-                <span class="like-content">{{ post.post_like }}</span>
-                <i class="fa-solid fa-thumbs-up"></i>
-            </button>
-            <button class="btn btn-primary d-flex align-items-center dislike">
-                <span class="dislike-content">{{ post.post_dislike }}</span>
-                <i class="fa-solid fa-thumbs-down"></i>
-            </button>
-        </div>
-        <form method="post" class="vote-form">
-            {% csrf_token %}
-            {{ comment_form }}
-            <button class="smaller-button" type="submit">Comment</button>
-        </form>
+{% block nav %}
+<div class="nav">
+    <a href="">Tạo flashcard</a>
+    <a href="">Diễn đàn</a>
+    <a href="">Trò chơi</a>
+</div>
+{% endblock %}
+
+{% block post %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<div class="post" style="height: 100%;">
+    <h1 class="logo">
+        <span>{{ post.post_title }}</span>
+    </h1>
+    <div class="comment-box">
+        <p class="comment-text">{{ post.post_content }}</p>
+    </div>
+    <div class="d-flex justify-content-start align-items-center mb-3">
+        <button class="btn btn-primary like me-2">
+            <i class="fa-solid fa-thumbs-up"></i>
+            <span class="ms-1">{{ post.post_like }}</span>
+        </button>
+        <button class="btn btn-primary dislike">
+            <i class="fa-solid fa-thumbs-down"></i>
+            <span class="ms-1">{{ post.post_dislike }}</span>
+        </button>
+    </div>
+    <form method="post" class="vote-form">
+        {% csrf_token %}
+        {{ comment_form }}
+        <button class="smaller-button" type="submit">Comment</button>
+    </form>
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">
@@ -49,15 +48,15 @@ body{
                 {% for comment in post.comment_set.all %}
                 <blockquote class="blockquote">
                     <i class="fa-solid fa-user"></i>
-                    <span><strong>{{ comment.comment_owner.username }}</strong></p> </span>
-                    <h3>{{comment.comment_context}}</h3> 
+                    <span><strong>{{ comment.comment_owner.username }}</strong></span>
+                    <h3>{{ comment.comment_context }}</h3> 
                 </blockquote>
                 <hr>
                 {% endfor %}
             </div>
         </div>
     </div>
-    </div>
+</div>
 
     <script>
         function getCookie(name) {
